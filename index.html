@@ -160,6 +160,37 @@
     letter-spacing: .04em;
     font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", "Liu Jian Mao Cao", "PingFang SC", cursive, sans-serif;
   }
+  /* ---------- 章节外右下角链接 ---------- */
+  .section-corner-link {
+    display: flex;
+    justify-content: flex-end;
+    padding: 14px 36px 24px;
+  }
+  .section-corner-link .corner-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", "Liu Jian Mao Cao", cursive;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink);
+    text-decoration: none;
+    max-width: 360px;
+    text-align: right;
+    transform: rotate(-1.5deg);
+    transition: transform .25s ease;
+  }
+  .section-corner-link .corner-link:hover {
+    color: var(--accent);
+    transform: rotate(-3deg) translateX(4px);
+  }
+  .section-corner-link .arrow {
+    width: 40px; height: 40px;
+    flex-shrink: 0;
+    transition: transform .25s ease;
+  }
+  .section-corner-link .corner-link:hover .arrow { transform: translate(4px, -2px) rotate(-6deg); }
+
   /* ---------- Fireworks ---------- */
   .fw-layer { position: fixed; inset: 0; pointer-events: none; z-index: 9998; overflow: hidden; }
   .fw {
@@ -238,8 +269,16 @@
 <!-- Section 04 · Mortise (pink) -->
 <div class="section-wrap pink" id="sec-wrap-mortise">
   <div class="chapter-anchor" id="sec-mortise"></div>
-  <!-- iframe 内 (components/mortise.html) 右下角自带「行动计划」跳转链接 -->
   <iframe class="frame" scrolling="no" src="components/mortise.html" style="height: 700px;" title="Mortise"></iframe>
+  <div class="section-corner-link">
+    <a class="corner-link" href="pages/mortise.html" target="_blank" rel="noopener">
+      <span class="text">点击请打开「计划与行动」完整子页 →</span>
+      <svg class="arrow" viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M10 32 Q 28 22, 46 32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        <path d="M40 24 L 48 32 L 40 40" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
 </div>
 
 <!-- Section 05 · Check-in (white) -->
