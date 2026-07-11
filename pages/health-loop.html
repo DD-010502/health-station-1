@@ -451,12 +451,19 @@ function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
 }
 
+
+/* resolveUrl: 把相对路径基于当前页面解析为绝对 URL */
+function resolveUrl(url) {
+  if (!url) return "";
+  try { return new URL(url, window.location.href).href; }
+  catch(e) { return url; }
+}
 function renderModule(key) {
   const mod = CONTENT[key];
   if (!mod) return '';
   const introParas = mod.intro.paragraphs.map(p => `<p class="lead">${p}</p>`).join('');
   const pdfTiles = (mod.pdfs || []).filter(p => p && p.url && p.url.trim()).map(p => `
-    <a class="pdf-tile" href="${escapeHtml(p.url)}" target="_blank" rel="noopener"
+    <a class="pdf-tile" href="${escapeHtml(resolveUrl(p.url))}" target="_blank" rel="noopener"
        data-pdf-id="${escapeHtml(p.id)}" data-module-id="${escapeHtml(key)}" data-track-action="open_pdf">
       <div class="ico">📄</div>
       <div class="body"><div class="t2">${escapeHtml(p.title)}</div></div>

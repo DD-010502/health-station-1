@@ -597,6 +597,19 @@ function escapeHtml(s) {
   }[c]));
 }
 
+/* 把相对路径 / 绝对路径 / 外链 都解析成当前页面下的完整 URL
+ * - 已是 http(s):// 开头：原样返回
+ * - 相对路径：基于当前页面 URL 解析成绝对
+ * 这样不管本地 localhost:8000 还是 github.io 都能正确打开 PDF/视频 */
+function resolveUrl(url) {
+  if (!url) return '';
+  try {
+    return new URL(url, window.location.href).href;
+  } catch(e) {
+    return url;
+  }
+}
+
 function renderModule(key) {
   const mod = CONTENT[key];
   if (!mod) return '';
@@ -605,7 +618,7 @@ function renderModule(key) {
     .filter(p => p && p.url && p.url.trim())    /* 只显示有 url 的项 */
     .map(p => `
     <a class="pdf-tile"
-       href="${escapeHtml(p.url)}"
+       href="${escapeHtml(resolveUrl(p.url))}"
        target="_blank"
        rel="noopener"
        data-pdf-id="${escapeHtml(p.id)}"
@@ -743,7 +756,7 @@ function openVideo(tile) {
       <video id="vidEl" controls preload="metadata" poster="${escapeHtml(meta.poster || '')}"
              style="width:100%; height:100%; background:#000;"
              data-video-id="${escapeHtml(meta.video_id)}">
-        <source src="${escapeHtml(meta.url)}" />
+        <source src="${escapeHtml(resolveUrl(meta.url))}" />
         您的浏览器不支持 video 标签。
       </video>
     `;
@@ -759,7 +772,7 @@ function openVideo(tile) {
         <div style="font-size:64px; margin-bottom:16px;">${isWechat ? '📱' : '🎬'}</div>
         <h3 style="margin: 0 0 12px 0; font-family: 'Ma Shan Zheng', cursive; font-size: 28px; color: var(--ink);">${escapeHtml(meta.title)}</h3>
         ${meta.desc ? `<p style="opacity:.7; margin: 0 0 24px 0;">${escapeHtml(meta.desc)}</p>` : ''}
-        <a href="${escapeHtml(meta.url)}" target="_blank" rel="noopener"
+        <a href="${escapeHtml(resolveUrl(meta.url))}" target="_blank" rel="noopener"
            style="display:inline-block; padding:12px 28px; background:var(--orange); color:#fff; border-radius:30px; text-decoration:none; font-size:16px; box-shadow:var(--shadow);">
           ${btnText}
         </a>
