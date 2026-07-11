@@ -600,7 +600,8 @@ function escapeHtml(s) {
 /* 把相对路径 / 绝对路径 / 外链 都解析成当前页面下的完整 URL
  * - 已是 http(s):// 开头：原样返回
  * - 相对路径：基于当前页面 URL 解析成绝对
- * 这样不管本地 localhost:8000 还是 github.io 都能正确打开 PDF/视频 */
+ * 注意：用 window.location.href 作 base 时，浏览器会自动 normalize host 大小写，
+ *      因此无论用户从大写还是小写 host 进入，最终解析出的 URL 都是 GitHub 默认小写形式。 */
 function resolveUrl(url) {
   if (!url) return '';
   try {
