@@ -228,6 +228,19 @@
     display: flex; align-items: center; justify-content: center;
     overflow: hidden;
   }
+  /* 有封面图时，cover 用封面做背景；中央播放图标 + 黑色蒙层 */
+  .video-tile.has-cover .cover {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .video-tile.has-cover .cover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,.35) 100%);
+    pointer-events: none;
+  }
   .video-tile .cover .play {
     width: 52px; height: 52px; border-radius: 50%;
     background: rgba(255, 255, 255, .9);
@@ -659,16 +672,19 @@ function renderModule(key) {
   `).join('');
   const videoTiles = (mod.videos || [])
     .filter(v => v && v.url && v.url.trim())    /* 只显示有 url 的项 */
-    .map(v => `
-    <div class="video-tile"
-         data-video-id="${escapeHtml(v.id)}"
-         data-module-id="${escapeHtml(key)}"
-         data-video-url="${escapeHtml(v.url)}"
-         data-title="${escapeHtml(v.title)}"
-         data-poster="${escapeHtml(v.poster || '')}"
-         data-duration="${v.durationSec || 0}"
-         data-track-action="open_video">
-      <div class="cover"><div class="play">▶</div></div>
+    .map(v => {
+      const coverUrl = v.cover ? resolveUrl(v.cover) : '';
+      return `
+    <a class="video-tile ${coverUrl ? 'has-cover' : ''}"
+       href="${escapeHtml(resolveUrl(v.url))}"
+       target="_blank"
+       rel="noopener"
+       data-video-id="${escapeHtml(v.id)}"
+       data-module-id="${escapeHtml(key)}"
+       data-video-url="${escapeHtml(v.url)}"
+       data-title="${escapeHtml(v.title)}"
+       data-track-action="open_video">
+      <div class="cover"${coverUrl ? ` style="background-image: url('${escapeHtml(coverUrl)}');"` : ''}><div class="play">▶</div></div>
       <div class="body">
         <div class="t">${escapeHtml(v.title)}</div>
         <div class="meta">
@@ -676,8 +692,8 @@ function renderModule(key) {
           ${v.intro ? `<span class="intro">${escapeHtml(v.intro)}</span>` : ''}
         </div>
       </div>
-    </div>
-  `).join('');
+    </a>
+  `;}).join('');
 
   return `
     <article class="module" id="mod-${key}" data-key="${key}">
@@ -742,7 +758,21 @@ function bindEvents() {
   });
 
   document.querySelectorAll('.video-tile[data-track-action="open_video"]').forEach(t => {
-    t.addEventListener('click', () => openVideo(t));
+    t.addEventListener('click', (e) => {
+      const url = t.dataset.videoUrl;
+      /* mp4 等视频文件 → 阻止默认跳转，弹 modal 内嵌播放 */
+      if (/\.(mp4|webm|mov|m3u8)(\?|$)/i.test(url)) {
+        e.preventDefault();
+        openVideo(t);
+      }
+      /* 外链 → 让 <a target="_blank"> 自动跳转，不 preventDefault */
+      track({
+        type: 'open_video',
+        module_id: t.dataset.moduleId,
+        target_id: t.dataset.videoId,
+        href: url,
+      });
+    });
   });
 }
 

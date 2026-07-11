@@ -220,6 +220,19 @@
     display: flex; align-items: center; justify-content: center;
     overflow: hidden;
   }
+  /* 有封面图时，cover 用封面做背景 */
+  .video-tile.has-cover .cover {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .video-tile.has-cover .cover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,.35) 100%);
+    pointer-events: none;
+  }
   .video-tile .cover .play {
     width: 52px; height: 52px; border-radius: 50%;
     background: rgba(255, 255, 255, .9);
@@ -562,7 +575,21 @@ function bindEvents() {
     });
   });
   document.querySelectorAll('.video-tile[data-track-action="open_video"]').forEach(t => {
-    t.addEventListener('click', () => openVideo(t));
+    t.addEventListener('click', (e) => {
+      const url = t.dataset.videoUrl;
+      /* mp4 等视频文件 → 阻止默认跳转，弹 modal 内嵌播放 */
+      if (/\.(mp4|webm|mov|m3u8)(\?|$)/i.test(url)) {
+        e.preventDefault();
+        openVideo(t);
+      }
+      /* 外链 → 让 <a target="_blank"> 直接跳转，不 preventDefault */
+      track({
+        type: 'open_video',
+        module_id: t.dataset.moduleId,
+        target_id: t.dataset.videoId,
+        href: url,
+      });
+    });
   });
 }
 
