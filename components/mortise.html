@@ -162,32 +162,7 @@
     display: block;
   }
 
-  /* Right-bottom corner: single link with arrow. */
-  .corner-link {
-    position: absolute;
-    right: 56px;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-    color: var(--ink);
-    font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", "Liu Jian Mao Cao", "PingFang SC", cursive, sans-serif;
-    font-size: 14px;
-    line-height: 1.55;
-    max-width: 360px;
-    text-align: right;
-    transform: rotate(-1.5deg);
-    z-index: 5;
-  }
-  .corner-link .text { flex: 1; }
-  .corner-link .arrow {
-    width: 44px;
-    height: 44px;
-    flex: 0 0 auto;
-    transition: transform .25s ease;
-  }
-  .corner-link:hover .arrow { transform: translate(4px, -2px) rotate(-6deg); }
+  /* corner-link 已迁移到 index.html（Section 04 iframe 外） */
 
   .state-tag {
     margin-top: 22px;
@@ -226,22 +201,6 @@
     <div class="bus-card">
       <img src="../assets/images/joyride.png" alt="兜风 · 水彩插画" />
     </div>
-
-    <a class="corner-link" href="../pages/mortise.html" target="_blank" rel="noopener">
-      <span class="text" id="mortiseLinkText"></span>
-      <svg class="arrow" viewBox="0 0 64 64" aria-hidden="true">
-        <defs>
-          <filter id="arrRough" x="-10%" y="-10%" width="120%" height="120%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="4" result="t"/>
-            <feDisplacementMap in="SourceGraphic" in2="t" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
-          </filter>
-        </defs>
-        <g filter="url(#arrRough)">
-          <path d="M10 32 Q 28 22, 46 32" fill="none" stroke="#2B2A28" stroke-width="3" stroke-linecap="round"/>
-          <path d="M40 24 L 48 32 L 40 40" fill="none" stroke="#2B2A28" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        </g>
-      </svg>
-    </a>
   </main>
 
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -304,10 +263,7 @@ const MORTISE_DATA = Object.assign({
   linkText: '接下来请学习<br/>健康行为的<em>行动计划</em>~',
 }, window.MORTISE_DATA || {});
 
-(function renderMortiseText() {
-  const el = document.getElementById('mortiseLinkText');
-  if (el && MORTISE_DATA.linkText) el.innerHTML = MORTISE_DATA.linkText;
-})();
+/* mortiseLinkText 已被移到 index.html，无需在这里渲染 */
 
 /* ---------- HAMMER (horizontal, iron head on the right) ---------- */
 function hammerSvg() {
