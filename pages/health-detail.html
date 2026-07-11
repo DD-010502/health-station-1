@@ -575,21 +575,29 @@ const DEFAULT_CONTENT = {
 };
 
 /* 内容从 content.json 异步加载（fetch 自动选绝对或相对路径） */
-let CONTENT = DEFAULT_CONTENT;  // 初始用默认值，fetch 成功后覆盖
+let CONTENT = DEFAULT_CONTENT;  // 初始 fallback（fetch 失败时用）
+let __contentReady = false;      // 是否已显示真实内容
 
-// 异步加载 content.json（无后端，配置文件驱动）
+/* 启动 fetch content.json — 等数据准备好再首次渲染 */
 (async function loadContent() {
   try {
     const resp = await fetch('../content.json', { cache: 'no-cache' });
     if (resp.ok) {
       const data = await resp.json();
-      // 合并：content.json 中的字段覆盖 DEFAULT_CONTENT
       CONTENT = Object.assign({}, DEFAULT_CONTENT, data);
-      // 如果已有 renderAll，调用一次刷新
-      if (typeof renderAll === 'function') renderAll();
+      __contentReady = true;
+      /* 首次渲染（在 fetch 之后）— 避免「先默认 → 后真实」闪烁 */
+      if (typeof renderAll === 'function') {
+        renderAll();
+        /* 渲染完后检查 hash，滚到对应模块 */
+        if (window.location.hash) showModuleFromHash();
+      }
     }
   } catch (e) {
     console.warn('[content] 加载 content.json 失败，使用默认内容', e);
+    __contentReady = true;
+    /* 即使失败也要渲染（用默认值） */
+    if (typeof renderAll === 'function') renderAll();
   }
 })();
 
@@ -950,10 +958,8 @@ function observeReveals() {
 }
 
 /* =====================================================================
-   Boot
+   Boot — renderAll 不在 boot 直接调，等 fetch 完成
    ===================================================================== */
-renderAll();
-/* 既支持直接 #diet-intro 进入，也支持子模块 */
 if (window.location.hash) showModuleFromHash();
 /* 兜底：如果 hash 解析失败或模块没找到，确保至少激活一个 */
 setTimeout(() => {
