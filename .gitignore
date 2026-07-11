@@ -31,3 +31,7 @@ uploads/
 !assets/**/*.mp4
 !assets/**/*.webm
 !assets/**/*.mov
+
+# R / 系统临时文件
+.Rhistory
+*.tmp
