@@ -145,6 +145,14 @@
     will-change: transform;
   }
   .fly svg { width: 100%; height: 100%; display: block; overflow: visible; }
+
+  /* 移动端适配 */
+  @media (max-width: 700px) {
+    .stage { padding: 12px; gap: 12px; }
+    .pieces { grid-template-columns: repeat(7, 1fr); }
+    .board-wrap { padding: 0 12px; }
+    .fly svg { max-width: 60px; }
+  }
 </style>
 </head>
 <body>

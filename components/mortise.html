@@ -64,6 +64,39 @@
     .stage { grid-template-columns: 1fr; }
   }
 
+  /* 移动端适配 */
+  @media (max-width: 700px) {
+    .top-nav { top: 12px; left: 12px; }
+    .back-btn { padding: 8px 14px; font-size: 13px; }
+    .stage { padding: 12px 16px 24px; gap: 14px; }
+    .hero { height: clamp(220px, 36vh, 320px); }
+    .hero-overlay h1 { font-size: clamp(24px, 7vw, 42px); padding: 0 16px; }
+    .letter-card { padding: 20px; }
+    .letter-card .greeting { font-size: 16px; }
+    .letter-card p { font-size: 14px; line-height: 1.7; }
+    .letter-sign { font-size: 13px; }
+    .bus-card img { max-width: 80%; }
+    /* checkin 特有 */
+    .todo-input { grid-template-columns: 1fr; gap: 6px; }
+    .todo-input input { padding: 8px 12px; }
+    .todo-input button { padding: 8px 14px; }
+    .date-controls { gap: 4px; }
+    .date-controls button { width: 28px; height: 28px; font-size: 13px; }
+    .date-controls .quick-back,
+    .date-controls .today-btn { font-size: 11px; padding: 0 8px; height: 26px; }
+    .date-display .big { font-size: 26px; }
+    .date-display .sub { font-size: 11px; }
+    .history-list { padding: 10px 12px; }
+    .history-list .head { font-size: 11px; }
+    .history-list li { font-size: 12px; }
+    .date-summary { font-size: 10px; letter-spacing: .04em; }
+    /* domino 特有 */
+    .domino-row { gap: 8px; }
+    .domino-tile { font-size: 12px; }
+    /* mortise 特有 */
+    .corner-link { font-size: 12px; padding: 6px 12px; }
+  }
+
   .workbench {
     position: relative;
     width: 100%;

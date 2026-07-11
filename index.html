@@ -226,6 +226,52 @@
     0%, 100% { transform: rotate(-3deg); }
     50%      { transform: rotate(3deg); }
   }
+
+  /* ============================================================
+     移动端适配 (max-width: 700px)
+     - 不改 HTML 结构，只加 CSS
+     - 700px 以下：手机/小平板
+     - 700px 以上：完全保持原样
+     ============================================================ */
+  @media (max-width: 700px) {
+    /* Hero 区域 */
+    .hero { height: clamp(280px, 50vh, 480px); }
+    .hero-overlay { padding-bottom: 32px; gap: 8px; }
+    .hero-overlay h1 {
+      font-size: clamp(28px, 8vw, 50px);
+      padding: 0 16px;
+    }
+
+    /* 装饰元素：手机上缩小/部分隐藏 */
+    .decor.d2, .decor.d3, .decor.d4 { font-size: 18px; }
+    .decor.d2 { right: 3%; }
+    .decor.d3 { left: 3%; }
+    .decor.d4 { right: 2%; }
+
+    /* 章节间隔 */
+    .chapter-anchor { height: 36px; }
+
+    /* iframe 在手机上更高（手机单独堆叠） */
+    iframe.frame { min-height: 380px; }
+
+    /* Section 04 的外链更紧凑 */
+    .section-corner-link {
+      padding: 8px 16px 16px;
+      justify-content: center;
+    }
+    .section-corner-link .corner-link {
+      font-size: 13px;
+      max-width: none;
+      text-align: center;
+    }
+
+    /* Footer */
+    .site-footer { padding: 24px 16px 20px; }
+    .footer-line { font-size: 13px; }
+    .footer-copy { font-size: 12px; }
+
+    /* Google Fonts 异步加载 (mobile-friendly) */
+  }
 </style>
 </head>
 <body>

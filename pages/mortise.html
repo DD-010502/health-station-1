@@ -120,6 +120,48 @@
     .stage { grid-template-columns: 1fr; }
   }
 
+  /* ============================================================
+     移动端适配 (max-width: 700px)
+     - 只对手机生效，平板/PC 不受影响
+     ============================================================ */
+  @media (max-width: 700px) {
+    .top-nav { top: 12px; left: 12px; }
+    .back-btn { padding: 8px 14px; font-size: 13px; }
+
+    .hero { height: clamp(220px, 36vh, 320px); }
+    .hero-overlay { padding-bottom: 36px; gap: 6px; }
+    .hero-overlay h1 { font-size: clamp(24px, 7vw, 42px); padding: 0 16px; }
+
+    .stage { padding: 16px 16px 32px; gap: 14px; }
+    .stage h2 { font-size: 22px; }
+    .lead { font-size: 14px; line-height: 1.6; }
+
+    .card { padding: 18px 18px 20px; margin-bottom: 16px; }
+    .card h2 { font-size: 19px; margin-bottom: 10px; }
+
+    .toc {
+      position: static;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .toc h3 { font-size: 14px; margin-bottom: 8px; }
+    .toc-item { font-size: 13px; padding: 6px 0; }
+
+    /* PDF/视频卡片单列显示 */
+    .pdf-row, .video-row { grid-template-columns: 1fr; gap: 10px; }
+    .video-tile .body { padding: 12px 14px; }
+    .video-tile .body .t { font-size: 14px; }
+    .video-tile .body .meta { font-size: 12px; }
+
+    /* 视频弹窗（手机全屏） */
+    .video-modal { padding: 8px; }
+    .video-modal .frame { width: 100%; max-width: 100%; padding: 16px; }
+    .video-modal h4 { font-size: 16px; }
+
+    .closing { padding: 24px 16px; margin-top: 24px; font-size: 14px; }
+    .closing h3 { font-size: 18px; }
+  }
+
   .card {
     background: #FFFFFF;
     border-radius: 18px;

@@ -322,6 +322,31 @@
     color: var(--grey);
     font-style: italic;
   }
+
+  /* 移动端适配 */
+  @media (max-width: 700px) {
+    .top-nav { top: 12px; left: 12px; }
+    .back-btn { padding: 8px 14px; font-size: 13px; }
+    .stage { padding: 12px 16px 16px; gap: 12px; }
+    .todo-card { padding: 14px; }
+    .todo-input { grid-template-columns: 1fr; gap: 6px; }
+    .todo-input input { padding: 8px 10px; font-size: 14px; }
+    .todo-input button { padding: 8px 12px; font-size: 14px; }
+    .date-card { padding: 14px; }
+    .date-controls { gap: 3px; flex-wrap: wrap; }
+    .date-controls button { width: 28px; height: 28px; font-size: 12px; }
+    .date-controls .quick-back,
+    .date-controls .today-btn { font-size: 10px; padding: 0 6px; height: 24px; }
+    .date-display .big { font-size: 22px; }
+    .date-display .sub { font-size: 10px; }
+    .date-summary { font-size: 9px; letter-spacing: .02em; }
+    .history-list { padding: 8px 10px; }
+    .history-list .head { font-size: 10px; }
+    .history-list li { font-size: 11px; }
+    .mona-card { max-width: 70%; margin: 0 auto; }
+    .mona-card img { max-width: 100%; }
+    .mona-card .caption { font-size: 11px; }
+  }
 </style>
 </head>
 <body>
