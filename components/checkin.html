@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>打卡 · 一日一行</title>
+<style>
+  :root {
+    --ink: #2B2A28;
+    --grey: #8A8580;
+    --accent: #C24A1F;
+    --orange: #E07A2E;
+    --green: #4F9A55;
+    --green-soft: #D8EBD4;
+    --orange-soft: #FBE4CC;
+  }
+  * { box-sizing: border-box; }
+  html, body { min-height: 100%; margin: 0; }
+  body {
+    background: transparent;
+    color: var(--ink);
+    font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", "Liu Jian Mao Cao", "PingFang SC", cursive, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .stage {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 16px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* todo-input 等样式已合并到 .date-card 内部（见 .checkin-title 附近） */
+  .todo-input {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .todo-input input {
+    font: inherit;
+    font-size: 15px;
+    border: 1.5px solid var(--ink);
+    border-radius: 8px;
+    padding: 9px 12px;
+    background: #FFFFFF;
+    color: var(--ink);
+    outline: none;
+    transition: border-color .2s ease;
+  }
+  .todo-input input:focus { border-color: var(--accent); }
+  .todo-input button {
+    font: inherit;
+    font-size: 15px;
+    padding: 9px 16px;
+    border: 1.5px solid var(--ink);
+    border-radius: 8px;
+    background: var(--ink);
+    color: #FBF7EC;
+    cursor: pointer;
+    transition: background .2s ease;
+  }
+  .todo-input button:hover { background: var(--accent); border-color: var(--accent); }
+  .todo-list {
+    margin: 0; padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .todo-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: 1.2px solid var(--ink);
+    border-radius: 8px;
+    background: #FFFFFF;
+    transition: background .25s ease, opacity .25s ease;
+  }
+  .todo-item.struck {
+    background: var(--green-soft);
+    opacity: .9;
+  }
+  .todo-item.struck .label { text-decoration: line-through; color: var(--green); }
+  .todo-item .label {
+    flex: 1;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .todo-item .label .count { color: var(--grey); font-size: 12px; margin-left: 6px; }
+  .todo-item .check {
+    font: inherit;
+    font-size: 14px;
+    padding: 6px 14px;
+    border: 1.5px solid var(--ink);
+    border-radius: 9999px;
+    background: #FFFFFF;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+  }
+  .todo-item .check:hover { background: var(--ink); color: #FBF7EC; }
+  .todo-item .check:disabled { opacity: .5; cursor: default; }
+  .todo-item .del {
+    font: inherit;
+    font-size: 12px;
+    padding: 4px 10px;
+    border: 1.5px solid transparent;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--grey);
+    cursor: pointer;
+  }
+  .todo-item .del:hover { color: var(--accent); border-color: var(--accent); }
+  .todo-empty {
+    text-align: center;
+    color: var(--grey);
+    font-size: 13px;
+    padding: 18px 12px;
+  }
+
+  /* ---------- BOTTOM: Date switcher + Mona Lisa ---------- */
+  .bottom {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: 24px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .bottom { grid-template-columns: 1fr; gap: 20px; }
+  }
+  .mona-card {
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .mona-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0;
+    mix-blend-mode: multiply;
+  }
+  .mona-card .caption {
+    margin-top: 12px;
+    text-align: center;
+    font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", "Liu Jian Mao Cao", "PingFang SC", cursive, sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+  }
+
+  /* ---------- Date Switcher (replaces calendar) ---------- */
+  .date-card {
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    padding: 18px 18px 20px;
+    background: #FBF7EC;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .checkin-title {
+    margin: 0 0 14px;
+    font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", cursive;
+    font-weight: 600;
+    font-size: 22px;
+    color: var(--ink);
+    text-align: center;
+  }
+  .divider {
+    height: 1px;
+    background: rgba(43, 42, 40, .18);
+    margin: 14px 0;
+  }
+  .date-display {
+    text-align: center;
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1.5px dashed rgba(43, 42, 40, .25);
+  }
+  .date-display .day-label {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--grey);
+    background: #FFFFFF;
+    border: 1.5px solid var(--ink);
+    border-radius: 9999px;
+    padding: 3px 14px;
+    margin-bottom: 8px;
+  }
+  .date-display .day-label.today { background: var(--accent); color: #FBF7EC; border-color: var(--accent); }
+  .date-display .day-label.past  { color: var(--grey); }
+  .date-display .day-label.future { background: var(--orange-soft); color: var(--orange); }
+  .date-display .big {
+    font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", cursive;
+    font-size: 30px;
+    line-height: 1.1;
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .date-display .sub {
+    font-size: 12px;
+    color: var(--grey);
+    margin-top: 4px;
+    letter-spacing: .04em;
+  }
+  .date-display .done-badge {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--green);
+    background: var(--green-soft);
+    border-radius: 9999px;
+    padding: 2px 10px;
+    letter-spacing: .06em;
+  }
+
+  .date-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .date-controls button {
+    font: inherit;
+    font-size: 14px;
+    width: 32px; height: 32px;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    background: #FFFFFF;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+  }
+  .date-controls button:hover:not(:disabled) { background: var(--ink); color: #FBF7EC; }
+  .date-controls button:disabled { opacity: .3; cursor: not-allowed; }
+  .date-controls .quick-back {
+    width: auto;
+    height: 28px;
+    border-radius: 9999px;
+    padding: 0 10px;
+    font-size: 11px;
+    letter-spacing: .04em;
+  }
+  .date-controls .jump-row {
+    display: flex;
+    gap: 4px;
+  }
+  .date-controls .today-btn {
+    width: auto;
+    height: 32px;
+    border-radius: 9999px;
+    padding: 0 14px;
+    font-size: 12px;
+    background: var(--ink);
+    color: #FBF7EC;
+    border-color: var(--ink);
+  }
+  .date-controls .today-btn:hover { background: var(--accent); border-color: var(--accent); }
+
+  .date-summary {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1.5px dashed rgba(43, 42, 40, .25);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--grey);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Helvetica Neue", sans-serif;
+  }
+  .date-summary strong { color: var(--ink); font-weight: 600; }
+  .date-summary .future-hint { color: var(--orange); }
+
+  /* ---------- History list (today's completed tasks) ---------- */
+  .history-list {
+    margin-top: 12px;
+    padding: 12px 16px;
+    border: 1.5px solid var(--green);
+    border-radius: 10px;
+    background: var(--green-soft);
+    display: none;
+  }
+  .history-list.show { display: block; }
+  .history-list .head {
+    font-size: 12px;
+    color: var(--green);
+    font-weight: 600;
+    margin-bottom: 6px;
+    letter-spacing: .04em;
+  }
+  .history-list ul {
+    margin: 0; padding: 0 0 0 20px;
+    list-style: "✅ ";
+  }
+  .history-list li {
+    font-size: 13px;
+    color: var(--ink);
+    margin: 3px 0;
+  }
+  .history-list .empty {
+    font-size: 12px;
+    color: var(--grey);
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+  <main class="stage">
+    <!-- 合并到一个区块：日期切换 + 添加 + 任务列表 + 已完成 + 累计 -->
+    <section class="bottom">
+      <div class="mona-card">
+        <img src="../assets/images/mona-lisa.png" alt="蒙娜丽莎" />
+        <div class="caption" id="monaCaption"></div>
+      </div>
+
+      <div class="date-card">
+        <h2 id="checkinTitle" class="checkin-title"></h2>
+
+        <div class="date-controls">
+          <button id="back-7" class="quick-back" type="button" title="后退 7 天">‹‹ 7天</button>
+          <button id="back-1" type="button" title="前一天">‹</button>
+          <button id="today-btn" class="today-btn" type="button">回到今日</button>
+          <button id="fwd-1" type="button" title="后一天">›</button>
+          <button id="fwd-7" class="quick-back" type="button" title="前进 7 天">7天 ››</button>
+        </div>
+
+        <div class="date-display">
+          <span class="day-label" id="dayLabel">今日</span>
+          <div class="big" id="bigDate">2026-07-11</div>
+          <div class="sub" id="subDate">周五 · 七月</div>
+          <div class="done-badge" id="doneBadge" style="display:none;">✓ 已完成</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ① 添加打卡任务 -->
+        <form class="todo-input" id="todoForm">
+          <input id="todoText" type="text" maxlength="40" placeholder="" />
+          <button type="submit" id="addBtn"></button>
+        </form>
+
+        <!-- 当前日期的可勾选任务列表 -->
+        <ul class="todo-list" id="todoList"></ul>
+        <div class="todo-empty" id="todoEmpty"></div>
+
+        <div class="divider"></div>
+
+        <!-- ② 已完成（绿框） -->
+        <div class="history-list" id="historyList">
+          <div class="head">已完成</div>
+          <ul id="historyUl"></ul>
+        </div>
+
+        <div class="date-summary">
+          <span>今年已打卡 <strong id="yearDone">0</strong> 天</span>
+          <span class="future-hint" id="futureHint">明日可提前规划</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+<script>
+/* =====================================================================
+   CHECKIN_DATA — all editable text
+   ===================================================================== */
+const CHECKIN_DATA = Object.assign({
+  title: '健康生活 小清单',
+  placeholder: '写下今天想打卡的小事…',
+  addButton: '添加',
+  emptyHint: '还没有打卡项，写一个开始吧 ✨',
+  monaCaption: '看着她，你今天也要微笑打卡哦',
+}, window.CHECKIN_DATA || {});
+
+(function renderCheckinText() {
+  const t = document.getElementById('checkinTitle');
+  if (t && CHECKIN_DATA.title) t.textContent = CHECKIN_DATA.title;
+  const inp = document.getElementById('todoText');
+  if (inp && CHECKIN_DATA.placeholder) inp.placeholder = CHECKIN_DATA.placeholder;
+  const btn = document.getElementById('addBtn');
+  if (btn && CHECKIN_DATA.addButton) btn.textContent = CHECKIN_DATA.addButton;
+  const empty = document.getElementById('todoEmpty');
+  if (empty && CHECKIN_DATA.emptyHint) empty.textContent = CHECKIN_DATA.emptyHint;
+  const cap = document.getElementById('monaCaption');
+  if (cap && CHECKIN_DATA.monaCaption) cap.textContent = CHECKIN_DATA.monaCaption;
+})();
+
+/* =========================================================
+   Data model
+   - todos: 今日（currentDateStr）当前展示的打卡项
+   - baseTodos: 初始（用于预填未来日期）
+   - todosByDate: { "2026-07-11": [...], "2026-07-12": [...副本...], ... }
+   - doneDates: Set of "YYYY-MM-DD"
+   - doneTasks: { "2026-07-11": ["label", ...] }
+   ========================================================= */
+const STORAGE_TODOS_BY_DATE = 'healthTodosByDate';
+const STORAGE_DONE_DATES    = 'healthDoneDates';
+const STORAGE_DONE_TASKS    = 'healthDoneTasks';
+const STORAGE_BASE_TODOS    = 'healthBaseTodos';
+
+const WEEKDAY_NAMES = ['周日','周一','周二','周三','周四','周五','周六'];
+const MONTH_NAMES_FULL = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+
+/* 1 年 = 365 天，往前往后最多 365 天 */
+const MAX_DAYS = 365;
+
+let todosByDate = {};   /* { dateKey: [todoObj, ...] } */
+let baseTodos = [];     /* 用户在「今日」添加的 todo，会复制到未来日期 */
+const doneDates = new Set();
+const doneTasks = {};
+let currentDate = new Date();   /* 当前查看的日期 */
+let todayDate = new Date();     /* 真实今天（不变） */
+
+/* ---------- Helpers ---------- */
+let _idCounter = 0;
+function id() {
+  /* 用时间戳 + 计数器保证唯一性，避免 Math.random 短字符串碰撞 */
+  _idCounter = (_idCounter + 1) % 10000;
+  return Date.now().toString(36) + '-' + _idCounter.toString(36);
+}
+function pad(n) { return String(n).padStart(2, '0'); }
+function dateKeyOf(d) { return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
+function dateKeyToday() { return dateKeyOf(todayDate); }
+function parseDateKey(s) {
+  const [y, m, d] = s.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+function daysBetween(a, b) {
+  const ms = b.getTime() - a.getTime();
+  return Math.round(ms / 86400000);
+}
+
+/* ---------- Persistence ---------- */
+function saveAll() {
+  try { localStorage.setItem(STORAGE_TODOS_BY_DATE, JSON.stringify(todosByDate)); } catch(e) {}
+  try { localStorage.setItem(STORAGE_BASE_TODOS, JSON.stringify(baseTodos)); } catch(e) {}
+  try {
+    localStorage.setItem(STORAGE_DONE_DATES, JSON.stringify([...doneDates]));
+    localStorage.setItem(STORAGE_DONE_TASKS, JSON.stringify(doneTasks));
+  } catch(e) {}
+}
+
+function loadData() {
+  try {
+    const tbd = localStorage.getItem(STORAGE_TODOS_BY_DATE);
+    if (tbd) todosByDate = JSON.parse(tbd);
+  } catch(e) { todosByDate = {}; }
+  try {
+    const bt = localStorage.getItem(STORAGE_BASE_TODOS);
+    if (bt) baseTodos = JSON.parse(bt);
+  } catch(e) { baseTodos = []; }
+  try {
+    const dd = localStorage.getItem(STORAGE_DONE_DATES);
+    if (dd) { JSON.parse(dd).forEach(s => doneDates.add(s)); }
+  } catch(e) {}
+  try {
+    const dt = localStorage.getItem(STORAGE_DONE_TASKS);
+    if (dt) Object.assign(doneTasks, JSON.parse(dt));
+  } catch(e) {}
+}
+
+/* ---------- Get todos for current date ---------- */
+function getCurrentTodos() {
+  const k = dateKeyOf(currentDate);
+  if (!todosByDate[k]) {
+    const todayKey = dateKeyToday();
+    /* 只有未来日期才自动预填；过去日期（昨日/前日/...）保持空白 */
+    if (k > todayKey && todosByDate[todayKey] && todosByDate[todayKey].length > 0) {
+      todosByDate[k] = todosByDate[todayKey].map(t => ({ ...t, id: id() }));
+    } else if (k > todayKey && baseTodos.length > 0) {
+      todosByDate[k] = baseTodos.map(t => ({ ...t, id: id() }));
+    } else {
+      todosByDate[k] = [];
+    }
+    saveAll();
+  }
+  return todosByDate[k];
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+/* ---------- Tracking (local log only) ---------- */
+function track(payload) {
+  const body = Object.assign({ type: 'checkin', ts: Date.now() }, payload);
+  if (window.__HEALTH_DEBUG__) console.log('[track]', body);
+  try {
+    const log = JSON.parse(localStorage.getItem('healthTrackLog') || '[]');
+    log.push(body);
+    if (log.length > 100) log.splice(0, log.length - 100);
+    localStorage.setItem('healthTrackLog', JSON.stringify(log));
+  } catch(e) {}
+}
+
+/* ---------- Render todo list ---------- */
+function renderTodos() {
+  const todos = getCurrentTodos();
+  todoList.innerHTML = '';
+  if (todos.length === 0) {
+    todoEmpty.textContent = CHECKIN_DATA.emptyHint || '还没有打卡项，写一个开始吧 ✨';
+    todoEmpty.style.display = 'block';
+    return;
+  }
+  todoEmpty.style.display = 'none';
+  const k = dateKeyOf(currentDate);
+  const isPast = k < dateKeyToday();
+  todos.forEach(t => {
+    const li = document.createElement('li');
+    li.className = 'todo-item';
+    li.dataset.id = t.id;
+    const isDone = (doneTasks[k] || []).includes(t.label);
+    if (isDone) li.classList.add('struck');
+    li.innerHTML = `
+      <span class="label">${escapeHtml(t.label)}${t.streak > 0 ? `<span class="count">· 完成过 ${t.streak} 次</span>` : ''}</span>
+      <button class="check" type="button" aria-label="打卡" ${isDone ? 'disabled' : ''}>${isDone ? '✓' : '打卡'}</button>
+      <button class="del" type="button" aria-label="删除">删</button>
+    `;
+    const checkBtn = li.querySelector('.check');
+    checkBtn.addEventListener('click', () => {
+      try { checkIn(li, t); } catch(e) { console.error('[checkIn]', e); }
+    });
+    li.querySelector('.del').addEventListener('click', () => {
+      try { removeTodo(t.id); } catch(e) { console.error('[removeTodo]', e); }
+    });
+    todoList.appendChild(li);
+  });
+}
+
+function addTodo(label) {
+  const trimmed = label.trim();
+  if (!trimmed) return;
+  const k = dateKeyOf(currentDate);
+  const todos = getCurrentTodos();
+  const newTodo = { id: id(), label: trimmed, streak: 0, createdAt: new Date().toISOString() };
+  todos.push(newTodo);
+  /* 如果是今日，且 baseTodos 没有这个 label，加进去 */
+  if (k === dateKeyToday() && !baseTodos.find(t => t.label === trimmed)) {
+    baseTodos.push({ label: trimmed });
+  }
+  saveAll();
+  track({ event: 'add_task', task_label: trimmed });
+  renderTodos();
+}
+
+function removeTodo(todoId) {
+  let todos = getCurrentTodos();
+  const t = todos.find(x => x.id === todoId);
+  todos = todos.filter(x => x.id !== todoId);
+  todosByDate[dateKeyOf(currentDate)] = todos;
+  if (t) track({ event: 'remove_task', task_label: t.label });
+  saveAll();
+  renderTodos();
+}
+
+function checkIn(li, t) {
+  if (li.classList.contains('struck')) return;
+  li.classList.add('struck');
+  const checkBtn = li.querySelector('.check');
+  if (checkBtn) {
+    checkBtn.disabled = true;
+    checkBtn.textContent = '✓';
+  }
+  t.streak++;
+  const k = dateKeyOf(currentDate);
+  doneDates.add(k);
+  if (!doneTasks[k]) doneTasks[k] = [];
+  if (!doneTasks[k].includes(t.label)) doneTasks[k].push(t.label);
+  saveAll();
+  track({ event: 'checkin', task_label: t.label, date: k });
+  /* 重新渲染：刷新 date 显示 + 累计 */
+  renderDateDisplay();
+  /* 庆祝动画 */
+  setTimeout(() => {
+    const big = document.getElementById('bigDate');
+    if (big) {
+      big.animate(
+        [{ transform: 'scale(1.08)' }, { transform: 'scale(1)' }],
+        { duration: 380, easing: 'ease-out' }
+      );
+    }
+  }, 50);
+}
+
+todoForm.addEventListener('submit', e => {
+  e.preventDefault();
+  addTodo(todoText.value);
+  todoText.value = '';
+  todoText.focus();
+});
+
+/* ---------- Date switcher ---------- */
+function canShift(days) {
+  const target = new Date(currentDate);
+  target.setDate(target.getDate() + days);
+  const diff = daysBetween(todayDate, target);
+  return diff >= -MAX_DAYS && diff <= MAX_DAYS;
+}
+
+function shiftDate(days) {
+  if (!canShift(days)) return;
+  currentDate.setDate(currentDate.getDate() + days);
+  renderDateDisplay();
+  renderTodos();
+  notifyParent();
+}
+
+function goToToday() {
+  currentDate = new Date(todayDate);
+  renderDateDisplay();
+  renderTodos();
+  notifyParent();
+}
+
+function dayLabelOf(d) {
+  const dk = dateKeyOf(d);
+  const tk = dateKeyOf(todayDate);
+  const diff = daysBetween(todayDate, d);
+  if (dk === tk) return '今日';
+  if (diff === 1) return '明天';
+  if (diff === -1) return '昨天';
+  if (diff === 2) return '后天';
+  if (diff === -2) return '前天';
+  if (diff === 3) return '大后天';
+  if (diff === -3) return '大前天';
+  if (diff > 0) return `${diff} 天后`;
+  if (diff < 0) return `${-diff} 天前`;
+  return '';
+}
+
+function renderDateDisplay() {
+  const dk = dateKeyOf(currentDate);
+  const tk = dateKeyOf(todayDate);
+  const isToday = dk === tk;
+  const isPast = dk < tk;
+  const isFuture = dk > tk;
+
+  const dayLabel = document.getElementById('dayLabel');
+  dayLabel.textContent = dayLabelOf(currentDate);
+  dayLabel.className = 'day-label ' + (isToday ? 'today' : isPast ? 'past' : 'future');
+
+  const big = document.getElementById('bigDate');
+  big.textContent = dk;
+
+  const sub = document.getElementById('subDate');
+  const wd = WEEKDAY_NAMES[currentDate.getDay()];
+  const m = MONTH_NAMES_FULL[currentDate.getMonth()];
+  sub.textContent = `${wd} · ${m}`;
+
+  const badge = document.getElementById('doneBadge');
+  const isDone = doneDates.has(dk);
+  badge.style.display = isDone ? 'inline-block' : 'none';
+
+  /* 已完成历史 */
+  const histList = document.getElementById('historyList');
+  const histUl = document.getElementById('historyUl');
+  const tasks = doneTasks[dk] || [];
+  if (tasks.length > 0) {
+    histList.classList.add('show');
+    histUl.innerHTML = tasks.map(l => `<li>${escapeHtml(l)}</li>`).join('');
+  } else {
+    histList.classList.remove('show');
+    histUl.innerHTML = '';
+  }
+
+  /* 累计 + 未来提示 */
+  document.getElementById('yearDone').textContent = doneDates.size;
+  const futureHint = document.getElementById('futureHint');
+  if (isFuture) {
+    const diff = daysBetween(todayDate, currentDate);
+    futureHint.textContent = diff === 1 ? '明日可提前规划' : `${diff} 天后可提前规划`;
+    futureHint.style.display = 'inline';
+  } else {
+    futureHint.style.display = 'none';
+  }
+
+  /* 按钮可用性 */
+  document.getElementById('back-7').disabled = !canShift(-7);
+  document.getElementById('back-1').disabled = !canShift(-1);
+  document.getElementById('fwd-1').disabled  = !canShift(1);
+  document.getElementById('fwd-7').disabled  = !canShift(7);
+  document.getElementById('today-btn').disabled = isToday;
+}
+
+document.getElementById('back-7').addEventListener('click', () => shiftDate(-7));
+document.getElementById('back-1').addEventListener('click', () => shiftDate(-1));
+document.getElementById('fwd-1').addEventListener('click', () => shiftDate(1));
+document.getElementById('fwd-7').addEventListener('click', () => shiftDate(7));
+document.getElementById('today-btn').addEventListener('click', goToToday);
+
+/* 键盘左右键切换日期 */
+document.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  if (e.key === 'ArrowLeft') shiftDate(-1);
+  else if (e.key === 'ArrowRight') shiftDate(1);
+});
+
+/* 通知父页面 iframe 高度变化 */
+function notifyParent() {
+  try {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: 'iframeResized', src: location.pathname }, '*');
+    }
+  } catch(e) {}
+}
+
+/* ---------- Init ---------- */
+loadData();
+renderDateDisplay();
+renderTodos();
+notifyParent();
+</script>
+</body>
+</html>

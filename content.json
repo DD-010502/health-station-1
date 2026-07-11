@@ -1,0 +1,183 @@
+{
+  "_comment": "健康小站配置文件。所有可编辑的内容都在这里。",
+  "_structure": {
+    "pdfsPerModule": 10,
+    "videosPerModule": 10,
+    "pdfFields": ["id", "title", "url"],
+    "videoFields": ["id", "title", "cover", "author", "intro", "url"]
+  },
+
+  "wechat": {
+    "name": "健康小站",
+    "intro": "扫码关注公众号，获取更多健康知识",
+    "qrCode": "assets/images/mp-qrcode.jpg"
+  },
+
+  "teamLetter": {
+    "_comment": "首页的「一封信」内容",
+    "eyebrow": "Letter · No. 01",
+    "title": "给<span class=\"cn\">青少年</span>的一封信",
+    "date": "写于 二〇二六年 · 初夏",
+    "cornerTag": "Team · Letter 01",
+    "greeting": "亲爱的同学/朋友：",
+    "paragraphs": [
+      "你好呀~ 欢迎来到「How do you keep healthy?」健康小站！",
+      "我们是一支热爱健康教育的团队，希望用轻松好玩的方式，把健康小知识送到你身边。",
+      "接下来你会看到 6 个模块：营养饮食、积极运动、良好睡眠、合理视屏、禁烟禁酒、心理健康。每个模块都配了简短的视频和 PDF 手册，方便你随时翻看。",
+      "如果觉得有用，欢迎分享给身边的朋友；也可以扫码关注我们的公众号，第一时间获取更新。",
+      "祝你身体健康，心情愉快！"
+    ],
+    "signOff": "—— 你的健康小团队 ❤️",
+    "signAlign": "right",
+    "signLabel": "你的健康小团队<br/>于二〇二六年夏"
+  },
+
+  "diet": {
+    "name": "营养饮食",
+    "intro": {
+      "title": "营养饮食 · 吃对每一餐",
+      "paragraphs": [
+        "合理膳食是健康的基石。青少年正处于身体发育的关键期，每天需要充足的能量和营养。",
+        "本模块将带你了解：什么是均衡饮食？如何搭配一日三餐？为什么要少吃含糖饮料和油炸食品？"
+      ]
+    },
+    "pdfs": [
+      { "id": "diet-pdf-1", "title": "青少年膳食指南手册", "url": "assets/pdfs/diet/01-guide.pdf" },
+      { "id": "diet-pdf-2", "title": "", "url": "" },
+      { "id": "diet-pdf-3", "title": "", "url": "" },
+      { "id": "diet-pdf-4", "title": "", "url": "" },
+      { "id": "diet-pdf-5", "title": "", "url": "" },
+      { "id": "diet-pdf-6", "title": "", "url": "" },
+      { "id": "diet-pdf-7", "title": "", "url": "" },
+      { "id": "diet-pdf-8", "title": "", "url": "" },
+      { "id": "diet-pdf-9", "title": "", "url": "" },
+      { "id": "diet-pdf-10", "title": "", "url": "" }
+    ],
+    "videos": [
+      { "id": "diet-vid-1", "title": "营养早餐怎么搭？", "cover": "", "author": "示例作者", "intro": "3 分钟学会营养早餐搭配", "url": "https://mp.weixin.qq.com/s?__biz=example&mid=1001&idx=1&sn=example" },
+      { "id": "diet-vid-2", "title": "", "cover": "", "author": "", "intro": "", "url": "" },
+      { "id": "diet-vid-3", "title": "", "cover": "", "author": "", "intro": "", "url": "" },
+      { "id": "diet-vid-4", "title": "", "cover": "", "author": "", "intro": "", "url": "" },
+      { "id": "diet-vid-5", "title": "", "cover": "", "author": "", "intro": "", "url": "" },
+      { "id": "diet-vid-6", "title": "", "cover": "", "author": "", "intro": "", "url": "" },
+      { "id": "diet-vid-7", "title": "", "cover": "", "author": "", "intro": "", "url": "" },
+      { "id": "diet-vid-8", "title": "", "cover": "", "author": "", "intro": "", "url": "" },
+      { "id": "diet-vid-9", "title": "", "cover": "", "author": "", "intro": "", "url": "" },
+      { "id": "diet-vid-10", "title": "", "cover": "", "author": "", "intro": "", "url": "" }
+    ]
+  },
+
+  "exercise": {
+    "name": "积极运动",
+    "intro": {
+      "title": "积极运动 · 让身体充满活力",
+      "paragraphs": [
+        "运动不仅能强健体魄，还能改善心情、提高学习效率。",
+        "WHO 建议青少年每天至少进行 60 分钟中等强度以上的运动。"
+      ]
+    },
+    "pdfs": [ { "id": "exercise-pdf-1", "title": "", "url": "" }, { "id": "exercise-pdf-2", "title": "", "url": "" }, { "id": "exercise-pdf-3", "title": "", "url": "" }, { "id": "exercise-pdf-4", "title": "", "url": "" }, { "id": "exercise-pdf-5", "title": "", "url": "" }, { "id": "exercise-pdf-6", "title": "", "url": "" }, { "id": "exercise-pdf-7", "title": "", "url": "" }, { "id": "exercise-pdf-8", "title": "", "url": "" }, { "id": "exercise-pdf-9", "title": "", "url": "" }, { "id": "exercise-pdf-10", "title": "", "url": "" } ],
+    "videos": [ { "id": "exercise-vid-1", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "exercise-vid-2", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "exercise-vid-3", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "exercise-vid-4", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "exercise-vid-5", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "exercise-vid-6", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "exercise-vid-7", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "exercise-vid-8", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "exercise-vid-9", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "exercise-vid-10", "title": "", "cover": "", "author": "", "intro": "", "url": "" } ]
+  },
+
+  "sleep": {
+    "name": "良好睡眠",
+    "intro": {
+      "title": "良好睡眠 · 给身体充电",
+      "paragraphs": [
+        "充足的睡眠是学习和成长的基础。青少年建议每天睡 8-10 小时。",
+        "本模块将教你如何改善睡眠质量。"
+      ]
+    },
+    "pdfs": [ { "id": "sleep-pdf-1", "title": "", "url": "" }, { "id": "sleep-pdf-2", "title": "", "url": "" }, { "id": "sleep-pdf-3", "title": "", "url": "" }, { "id": "sleep-pdf-4", "title": "", "url": "" }, { "id": "sleep-pdf-5", "title": "", "url": "" }, { "id": "sleep-pdf-6", "title": "", "url": "" }, { "id": "sleep-pdf-7", "title": "", "url": "" }, { "id": "sleep-pdf-8", "title": "", "url": "" }, { "id": "sleep-pdf-9", "title": "", "url": "" }, { "id": "sleep-pdf-10", "title": "", "url": "" } ],
+    "videos": [ { "id": "sleep-vid-1", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "sleep-vid-2", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "sleep-vid-3", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "sleep-vid-4", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "sleep-vid-5", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "sleep-vid-6", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "sleep-vid-7", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "sleep-vid-8", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "sleep-vid-9", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "sleep-vid-10", "title": "", "cover": "", "author": "", "intro": "", "url": "" } ]
+  },
+
+  "screen": {
+    "name": "合理视屏",
+    "intro": {
+      "title": "合理视屏 · 别让眼睛太累",
+      "paragraphs": [
+        "长时间看屏幕会导致眼睛疲劳、视力下降、颈椎不适。",
+        "学会合理安排屏幕时间，是健康学习的关键。"
+      ]
+    },
+    "pdfs": [ { "id": "screen-pdf-1", "title": "", "url": "" }, { "id": "screen-pdf-2", "title": "", "url": "" }, { "id": "screen-pdf-3", "title": "", "url": "" }, { "id": "screen-pdf-4", "title": "", "url": "" }, { "id": "screen-pdf-5", "title": "", "url": "" }, { "id": "screen-pdf-6", "title": "", "url": "" }, { "id": "screen-pdf-7", "title": "", "url": "" }, { "id": "screen-pdf-8", "title": "", "url": "" }, { "id": "screen-pdf-9", "title": "", "url": "" }, { "id": "screen-pdf-10", "title": "", "url": "" } ],
+    "videos": [ { "id": "screen-vid-1", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "screen-vid-2", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "screen-vid-3", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "screen-vid-4", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "screen-vid-5", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "screen-vid-6", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "screen-vid-7", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "screen-vid-8", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "screen-vid-9", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "screen-vid-10", "title": "", "cover": "", "author": "", "intro": "", "url": "" } ]
+  },
+
+  "habits": {
+    "name": "禁烟禁酒",
+    "intro": {
+      "title": "禁烟禁酒 · 远离不良嗜好",
+      "paragraphs": [
+        "青少年的大脑和身体还在发育，烟酒的危害比成人更大。",
+        "本模块带你了解烟酒的真实危害，学会拒绝的技巧。"
+      ]
+    },
+    "pdfs": [ { "id": "habits-pdf-1", "title": "", "url": "" }, { "id": "habits-pdf-2", "title": "", "url": "" }, { "id": "habits-pdf-3", "title": "", "url": "" }, { "id": "habits-pdf-4", "title": "", "url": "" }, { "id": "habits-pdf-5", "title": "", "url": "" }, { "id": "habits-pdf-6", "title": "", "url": "" }, { "id": "habits-pdf-7", "title": "", "url": "" }, { "id": "habits-pdf-8", "title": "", "url": "" }, { "id": "habits-pdf-9", "title": "", "url": "" }, { "id": "habits-pdf-10", "title": "", "url": "" } ],
+    "videos": [ { "id": "habits-vid-1", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "habits-vid-2", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "habits-vid-3", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "habits-vid-4", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "habits-vid-5", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "habits-vid-6", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "habits-vid-7", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "habits-vid-8", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "habits-vid-9", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "habits-vid-10", "title": "", "cover": "", "author": "", "intro": "", "url": "" } ]
+  },
+
+  "mental": {
+    "name": "心理健康",
+    "intro": {
+      "title": "心理健康 · 守护内心的阳光",
+      "paragraphs": [
+        "心理健康和身体健康同样重要。",
+        "学习识别情绪、应对压力，是青少年成长的必修课。"
+      ]
+    },
+    "pdfs": [ { "id": "mental-pdf-1", "title": "", "url": "" }, { "id": "mental-pdf-2", "title": "", "url": "" }, { "id": "mental-pdf-3", "title": "", "url": "" }, { "id": "mental-pdf-4", "title": "", "url": "" }, { "id": "mental-pdf-5", "title": "", "url": "" }, { "id": "mental-pdf-6", "title": "", "url": "" }, { "id": "mental-pdf-7", "title": "", "url": "" }, { "id": "mental-pdf-8", "title": "", "url": "" }, { "id": "mental-pdf-9", "title": "", "url": "" }, { "id": "mental-pdf-10", "title": "", "url": "" } ],
+    "videos": [ { "id": "mental-vid-1", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "mental-vid-2", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "mental-vid-3", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "mental-vid-4", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "mental-vid-5", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "mental-vid-6", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "mental-vid-7", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "mental-vid-8", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "mental-vid-9", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "mental-vid-10", "title": "", "cover": "", "author": "", "intro": "", "url": "" } ]
+  },
+
+  "loop": {
+    "name": "环环相扣的健康行为",
+    "intro": {
+      "title": "环环相扣的健康行为",
+      "paragraphs": [
+        "健康不是孤立的行为，而是环环相扣的整体。",
+        "睡眠、饮食、运动、心理——每一点都会影响其他方面。"
+      ]
+    },
+    "pdfs": [ { "id": "loop-pdf-1", "title": "", "url": "" }, { "id": "loop-pdf-2", "title": "", "url": "" }, { "id": "loop-pdf-3", "title": "", "url": "" }, { "id": "loop-pdf-4", "title": "", "url": "" }, { "id": "loop-pdf-5", "title": "", "url": "" }, { "id": "loop-pdf-6", "title": "", "url": "" }, { "id": "loop-pdf-7", "title": "", "url": "" }, { "id": "loop-pdf-8", "title": "", "url": "" }, { "id": "loop-pdf-9", "title": "", "url": "" }, { "id": "loop-pdf-10", "title": "", "url": "" } ],
+    "videos": [ { "id": "loop-vid-1", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "loop-vid-2", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "loop-vid-3", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "loop-vid-4", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "loop-vid-5", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "loop-vid-6", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "loop-vid-7", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "loop-vid-8", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "loop-vid-9", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "loop-vid-10", "title": "", "cover": "", "author": "", "intro": "", "url": "" } ]
+  },
+
+  "action": {
+    "name": "计划与行动",
+    "intro": {
+      "title": "计划与行动 · 把健康落到实处",
+      "paragraphs": [
+        "光知道还不够，关键是要行动。",
+        "本模块帮你制定属于自己的健康行动计划。"
+      ]
+    },
+    "pdfs": [ { "id": "action-pdf-1", "title": "", "url": "" }, { "id": "action-pdf-2", "title": "", "url": "" }, { "id": "action-pdf-3", "title": "", "url": "" }, { "id": "action-pdf-4", "title": "", "url": "" }, { "id": "action-pdf-5", "title": "", "url": "" }, { "id": "action-pdf-6", "title": "", "url": "" }, { "id": "action-pdf-7", "title": "", "url": "" }, { "id": "action-pdf-8", "title": "", "url": "" }, { "id": "action-pdf-9", "title": "", "url": "" }, { "id": "action-pdf-10", "title": "", "url": "" } ],
+    "videos": [ { "id": "action-vid-1", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "action-vid-2", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "action-vid-3", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "action-vid-4", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "action-vid-5", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "action-vid-6", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "action-vid-7", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "action-vid-8", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "action-vid-9", "title": "", "cover": "", "author": "", "intro": "", "url": "" }, { "id": "action-vid-10", "title": "", "cover": "", "author": "", "intro": "", "url": "" } ]
+  },
+
+  "checkin": {
+    "_comment": "首页 iframe 里的打卡页配置（如果用）",
+    "title": "健康生活 小清单",
+    "placeholder": "写下今天想打卡的小事…",
+    "addButton": "添加",
+    "emptyHint": "还没有打卡项，写一个开始吧 ✨",
+    "monaCaption": "看着她，你今天也要微笑打卡哦"
+  },
+
+  "ui": {
+    "_comment": "UI 文案（按钮、链接等）",
+    "heroTitleHtml": "How do you keep <span class=\"click\">healthy</span>?",
+    "heroTip": "点击 healthy 试试看 ✨",
+    "sections": [
+      { "id": "sec-team",    "num": "Section 01", "title": "一封信来自我们" },
+      { "id": "sec-tangram", "num": "Section 02", "title": "七巧板 · 健康行为小知识拼图" },
+      { "id": "sec-loop",    "num": "Section 03", "title": "多米诺骨牌 · 环环相扣的健康行为" },
+      { "id": "sec-mortise", "num": "Section 04", "title": "一锤入榫 · 计划与行动" },
+      { "id": "sec-checkin", "num": "Section 05", "title": "每日打卡 · 一日一行" }
+    ],
+    "mortiseLinkHtml": "点击请了解如何制定更棒的行动与计划～"
+  }
+}

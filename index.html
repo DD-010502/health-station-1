@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>How do you keep healthy?</title>
+<!-- Google Fonts 异步加载，国内网络慢时不阻塞页面渲染 -->
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Liu+Jian+Mao+Cao&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+<noscript><link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Liu+Jian+Mao+Cao&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" /></noscript>
+<style>
+  :root {
+    --ink: #2B2A28;
+    --accent: #C24A1F;
+    --paper: #FFFFFF;
+    --pink: #FDF8F5;
+    --yellow: #F8D053;
+    --orange: #E07A2E;
+    --pink2: #CB6851;
+    --blue: #5BB0D4;
+    --green: #799863;
+    --text-muted: #6B6560;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", "Liu Jian Mao Cao", "PingFang SC", cursive, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--paper); }
+  ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, var(--yellow), var(--pink2)); border-radius: 10px; }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    width: 100%;
+    height: clamp(360px, 56vh, 620px);
+    overflow: hidden;
+    background: #FFFFFF;
+  }
+  .hero-img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    filter: saturate(1.25) contrast(1.05) brightness(1.05);
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,.1) 0%, rgba(0,0,0,.2) 60%, rgba(0,0,0,.6) 100%);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: flex-end;
+    padding-bottom: 56px; gap: 12px;
+  }
+  .hero-overlay h1 {
+    margin: 0;
+    font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", cursive;
+    font-weight: 400;
+    color: #FFFFFF;
+    font-size: clamp(34px, 5.4vw, 72px);
+    line-height: 1.2;
+    text-align: center;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, .4);
+    letter-spacing: .02em;
+  }
+  .hero-overlay h1 .click {
+    cursor: pointer;
+    display: inline-block;
+    padding: 0 .15em;
+    color: var(--yellow);
+    border-bottom: 2px dashed var(--yellow);
+    transition: transform .25s ease;
+  }
+  .hero-overlay h1 .click:hover {
+    transform: translateY(-2px) rotate(-3deg);
+    text-shadow: 0 0 24px var(--yellow);
+  }
+  .hero-overlay .tip {
+    color: rgba(255, 255, 255, .9);
+    font-size: 15px;
+    animation: wiggle 1.4s ease-in-out infinite;
+  }
+  .decor { position: absolute; pointer-events: none; font-size: 28px; opacity: .8;
+           filter: drop-shadow(0 2px 6px rgba(0,0,0,.25)); }
+  .decor.d1 { top: 14%; left: 6%;  animation: float 5s ease-in-out infinite; }
+  .decor.d2 { top: 22%; right: 6%; animation: float 6s ease-in-out infinite 1s; font-size: 24px; color: var(--yellow); }
+  .decor.d3 { top: 38%; left: 4%;  animation: float 7s ease-in-out infinite .5s; font-size: 22px; color: var(--blue); }
+  .decor.d4 { top: 46%; right: 5%; animation: float 5.5s ease-in-out infinite 1.5s; font-size: 26px; color: var(--green); }
+
+  /* hero-stats / user-tag 已移除（纯前端版无需打卡徽章和用户标签） */
+
+  /* ---------- Wave divider ---------- */
+  .wave-divider { margin-top: -1px; }
+  .wave-divider svg { display: block; width: 100%; height: 60px; }
+
+  /* ---------- Section wrappers ---------- */
+  .section-wrap {
+    padding: 0;
+    margin: 0;
+  }
+  .section-wrap.pink { background: var(--pink); }
+  .section-wrap.white { background: #FFFFFF; }
+
+  /* ---------- Section anchors ---------- */
+  .chapter-anchor {
+    text-align: center;
+    padding: 20px 24px 8px;
+    font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", "Liu Jian Mao Cao", cursive;
+    font-size: clamp(22px, 2.4vw, 28px);
+    color: var(--text-muted);
+    user-select: none;
+  }
+  .chapter-anchor .num {
+    display: block;
+    font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", cursive;
+    font-size: 13px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    color: var(--text-muted);
+  }
+
+  /* ---------- iframes ---------- */
+  .frame {
+    width: 100%;
+    border: 0;
+    display: block;
+    background: transparent;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Nickname modal CSS 已移除 */
+
+  /* ---------- Footer ---------- */
+  .site-footer {
+    background: #FBF7EC;
+    border-top: 1px solid rgba(43, 42, 40, .12);
+    padding: 32px 20px 28px;
+    text-align: center;
+    color: var(--ink);
+  }
+  .footer-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .footer-line {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    letter-spacing: .04em;
+    line-height: 1.6;
+    color: rgba(43, 42, 40, .65);
+    font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", "Liu Jian Mao Cao", "PingFang SC", cursive, sans-serif;
+  }
+  .footer-copy {
+    margin: 14px 0 0 0 !important;
+    font-size: 12px;
+    color: rgba(43, 42, 40, .45);
+    letter-spacing: .04em;
+    font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", "Liu Jian Mao Cao", "PingFang SC", cursive, sans-serif;
+  }
+  /* ---------- Fireworks ---------- */
+  .fw-layer { position: fixed; inset: 0; pointer-events: none; z-index: 9998; overflow: hidden; }
+  .fw {
+    position: absolute; width: 8px; height: 8px; border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: fw-burst 1.4s cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  @keyframes fw-burst {
+    0%   { transform: translate(-50%, -50%) scale(.2); opacity: 1; }
+    60%  { opacity: 1; }
+    100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.4); opacity: 0; }
+  }
+  .fw-ring {
+    position: absolute; width: 16px; height: 16px; border-radius: 50%;
+    border: 2px solid var(--c);
+    transform: translate(-50%, -50%) scale(.1); opacity: 0;
+    animation: fw-ring 1.1s ease-out forwards;
+  }
+  @keyframes fw-ring {
+    0%   { transform: translate(-50%, -50%) scale(.1); opacity: .9; }
+    100% { transform: translate(-50%, -50%) scale(8); opacity: 0; }
+  }
+
+  /* ---------- Animations ---------- */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-12px); }
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-3deg); }
+    50%      { transform: rotate(3deg); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== Nickname Modal ==================== -->
+<!-- 已移除昵称弹窗（纯前端版无需登录） -->
+<!-- 已移除连续打卡徽章（保留打卡数据，UI 不再显示） -->
+<!-- 已移除 userTag 元素 -->
+
+<header class="hero">
+  <img class="hero-img" src="assets/images/hero.png" alt="健康生活封面" />
+  <div class="hero-overlay">
+    <h1 id="heroTitle">How do you keep <span class="click" id="healthyWord">healthy</span>?</h1>
+    <p class="tip" id="heroTip">点击 healthy 试试看 ✨</p>
+  </div>
+</header>
+
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 L1440,60 L0,60 Z" fill="#FFFFFF"/>
+  </svg>
+</div>
+
+<div class="fw-layer" id="fwLayer" aria-hidden="true"></div>
+
+<!-- Section 01 · Team (white) -->
+<div class="section-wrap white" id="sec-wrap-team">
+  <div class="chapter-anchor" id="sec-team"></div>
+  <iframe class="frame" scrolling="no" src="components/team.html" style="height: 700px;" title="Team"></iframe>
+</div>
+
+<!-- Section 02 · Tangram (pink) -->
+<div class="section-wrap pink" id="sec-wrap-tangram">
+  <div class="chapter-anchor" id="sec-tangram"></div>
+  <iframe class="frame" scrolling="no" src="components/tangram.html" style="height: 650px;" title="Tangram"></iframe>
+</div>
+
+<!-- Section 03 · Health Loop (white) -->
+<div class="section-wrap white" id="sec-wrap-loop">
+  <div class="chapter-anchor" id="sec-loop"></div>
+  <iframe class="frame" scrolling="no" src="components/domino.html" style="height: 700px;" title="Health Loop"></iframe>
+</div>
+
+<!-- Section 04 · Mortise (pink) -->
+<div class="section-wrap pink" id="sec-wrap-mortise">
+  <div class="chapter-anchor" id="sec-mortise"></div>
+  <!-- iframe 内 (components/mortise.html) 右下角自带「行动计划」跳转链接 -->
+  <iframe class="frame" scrolling="no" src="components/mortise.html" style="height: 700px;" title="Mortise"></iframe>
+</div>
+
+<!-- Section 05 · Check-in (white) -->
+<div class="section-wrap white" id="sec-wrap-checkin">
+  <div class="chapter-anchor" id="sec-checkin"></div>
+  <iframe class="frame" scrolling="no" src="components/checkin.html" style="height: 760px;" title="Check-in"></iframe>
+</div>
+
+<!-- ============================================================
+     Footer — 免责声明 / 版权
+     ============================================================ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p class="footer-line">📌 个人打卡数据仅存本机浏览器，清缓存/换设备会重置</p>
+    <p class="footer-line">⭐ 建议加入书签方便下次打开</p>
+    <p class="footer-copy">© 2026 hxgw-lql-team · 仅供健康教育使用 · 请勿未经授权转载或二次售卖</p>
+  </div>
+</footer>
+
+<script>
+/* =====================================================================
+   PAGE_DATA — 所有可编辑文字集中在这里
+   配置文件 (content.json) 可在脚本运行前注入覆盖
+   ===================================================================== */
+const DEFAULT_PAGE_DATA = {
+  heroImage: 'assets/images/hero.png',
+  heroTitleHtml: 'How do you keep <span class="click" id="healthyWord">healthy</span>?',
+  heroTip: '点击 healthy 试试看 ✨',
+  sections: [
+    { id: 'sec-team',    num: 'Section 01', title: '一封信来自我们' },
+    { id: 'sec-tangram', num: 'Section 02', title: '七巧板 · 健康行为小知识拼图' },
+    { id: 'sec-loop',    num: 'Section 03', title: '多米诺骨牌 · 环环相扣的健康行为' },
+    { id: 'sec-mortise', num: 'Section 04', title: '一锤入榫 · 计划与行动' },
+    { id: 'sec-checkin', num: 'Section 05', title: '每日打卡 · 一日一行' },
+  ],
+  mortiseLinkHtml: '点击请了解如何制定更棒的行动与计划～',
+  checkinIframeTitle: 'Check-in',
+};
+
+let PAGE_DATA = Object.assign({}, DEFAULT_PAGE_DATA, window.PAGE_DATA || {});
+
+// 异步加载 content.json 覆盖
+(async function loadPageData() {
+  try {
+    const resp = await fetch('content.json', { cache: 'no-cache' });
+    if (resp.ok) {
+      const data = await resp.json();
+      if (data.ui) {
+        PAGE_DATA = Object.assign({}, PAGE_DATA, data.ui);
+        renderSections();
+        renderHero();
+      }
+    }
+  } catch (e) {
+    console.warn('[page] 加载 content.json 失败，使用默认', e);
+  }
+})();
+
+/* =====================================================================
+   Render section anchors from PAGE_DATA
+   ===================================================================== */
+function renderSections() {
+  PAGE_DATA.sections.forEach(s => {
+    const el = document.getElementById(s.id);
+    if (el) {
+      el.innerHTML = `<span class="num">${s.num}</span>${s.title}`;
+    }
+  });
+}
+renderSections();
+
+/* Apply hero content */
+function renderHero() {
+  const titleEl = document.getElementById('heroTitle');
+  if (titleEl && PAGE_DATA.heroTitleHtml) titleEl.innerHTML = PAGE_DATA.heroTitleHtml;
+  const tipEl = document.getElementById('heroTip');
+  if (tipEl && PAGE_DATA.heroTip) tipEl.textContent = PAGE_DATA.heroTip;
+  const imgEl = document.querySelector('.hero-img');
+  if (imgEl && PAGE_DATA.heroImage) imgEl.src = PAGE_DATA.heroImage;
+}
+renderHero();
+
+/* =====================================================================
+   Fireworks
+   ===================================================================== */
+const fwLayer = document.getElementById('fwLayer');
+
+function launchFireworks(originX, originY, palette, count) {
+  const n = count || 28;
+  const colors = palette || ['#F8D053', '#799863', '#cb6851', '#7091b6', '#5bb0d4', '#E07A2E', '#C24A1F'];
+  const ring = document.createElement('div');
+  ring.className = 'fw-ring';
+  ring.style.left = originX + 'px';
+  ring.style.top  = originY + 'px';
+  ring.style.setProperty('--c', colors[0]);
+  fwLayer.appendChild(ring);
+  setTimeout(() => ring.remove(), 1200);
+  for (let i = 0; i < n; i++) {
+    const angle = (i / n) * Math.PI * 2 + Math.random() * .4;
+    const dist  = 90 + Math.random() * 80;
+    const dx = Math.cos(angle) * dist;
+    const dy = Math.sin(angle) * dist;
+    const dot = document.createElement('div');
+    dot.className = 'fw';
+    dot.style.left = originX + 'px';
+    dot.style.top  = originY + 'px';
+    dot.style.background = colors[i % colors.length];
+    dot.style.setProperty('--dx', dx + 'px');
+    dot.style.setProperty('--dy', dy + 'px');
+    fwLayer.appendChild(dot);
+    setTimeout(() => dot.remove(), 1500);
+  }
+}
+
+/* Bind fireworks to the "healthy" word — 用事件委托，避开 innerHTML 替换问题 */
+function bindHealthyFireworks() {
+  /* 事件委托给 heroTitle 容器，无论内部 span 怎么替换都能触发 */
+  const heroTitle = document.getElementById('heroTitle');
+  if (!heroTitle) return;
+  if (heroTitle.dataset.fwDelegated === '1') return;
+  heroTitle.dataset.fwDelegated = '1';
+  heroTitle.addEventListener('click', (e) => {
+    /* 只在点击 healthy/healthyWord 时触发 */
+    const target = e.target.closest('#healthyWord, .click');
+    if (!target) return;
+    const r = target.getBoundingClientRect();
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
+    launchFireworks(cx, cy, ['#F8D053', '#cb6851', '#5bb0d4', '#799863', '#E07A2E', '#C24A1F'], 30);
+    setTimeout(() => launchFireworks(cx - 100, cy + 40, ['#799863', '#5bb0d4'], 22), 220);
+    setTimeout(() => launchFireworks(cx + 120, cy - 30, ['#F8D053', '#E07A2E', '#C24A1F'], 22), 420);
+  });
+}
+
+setTimeout(bindHealthyFireworks, 0);
+/* content.json 加载并重新 renderHero 后确保绑定仍然有效 */
+setTimeout(bindHealthyFireworks, 200);
+
+/* =====================================================================
+   Auto-size iframes
+   ===================================================================== */
+function fitIframe(iframe) {
+  const measure = () => {
+    try {
+      const doc = iframe.contentDocument;
+      if (!doc) return;
+      const h = Math.max(
+        doc.documentElement.scrollHeight,
+        doc.body ? doc.body.scrollHeight : 0
+      );
+      if (h > 0) iframe.style.height = h + 'px';
+    } catch (e) { /* cross-origin */ }
+  };
+  iframe.addEventListener('load', () => {
+    measure();
+    try {
+      const ro = new ResizeObserver(measure);
+      if (iframe.contentDocument && iframe.contentDocument.body) {
+        ro.observe(iframe.contentDocument.body);
+      }
+    } catch (e) {}
+    window.addEventListener('resize', measure);
+    setInterval(measure, 1500);
+  });
+}
+document.querySelectorAll('iframe.frame').forEach(fitIframe);
+
+/* 监听子 iframe 的高度重算请求 */
+window.addEventListener('message', (e) => {
+  if (!e.data || e.data.type !== 'iframeResized') return;
+  document.querySelectorAll('iframe.frame').forEach((iframe) => {
+    try {
+      if (iframe.contentWindow === e.source) {
+        // 触发一次测高
+        const doc = iframe.contentDocument;
+        if (!doc) return;
+        const h = Math.max(
+          doc.documentElement.scrollHeight,
+          doc.body ? doc.body.scrollHeight : 0
+        );
+        if (h > 0) iframe.style.height = h + 'px';
+      }
+    } catch (err) {}
+  });
+});
+</script>
+</body>
+</html>

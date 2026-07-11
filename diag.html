@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>健康小站 · 诊断</title>
+<style>
+  body { font-family: -apple-system, sans-serif; padding: 20px; line-height: 1.7; }
+  .ok   { color: #4F9A55; font-weight: bold; }
+  .err  { color: #C24A1F; font-weight: bold; }
+  .row  { padding: 4px 0; border-bottom: 1px dashed #eee; }
+  h2    { margin-top: 24px; }
+  code  { background: #f4f4f4; padding: 1px 5px; border-radius: 3px; }
+</style>
+</head>
+<body>
+<h1>健康小站 · 自检报告</h1>
+<p>当前 URL：<code id="url"></code></p>
+<p>当前 protocol：<code id="proto"></code></p>
+
+<h2>1. 网络请求测试</h2>
+<div id="net-tests"></div>
+
+<h2>2. localStorage 测试</h2>
+<div id="ls-tests"></div>
+
+<h2>3. iframe 加载测试</h2>
+<div id="ifr-tests"></div>
+
+<h2>4. 控制台错误（应为空）</h2>
+<div id="err-list"></div>
+
+<script>
+document.getElementById('url').textContent = location.href;
+document.getElementById('proto').textContent = location.protocol;
+
+// 1. 测 4 个关键 URL
+async function testFetch() {
+  const urls = [
+    '/content.json',
+    '/assets/images/hero.png',
+    '/assets/images/title2.png',
+    '/pages/health-detail.html',
+  ];
+  const div = document.getElementById('net-tests');
+  for (const u of urls) {
+    const r = await fetch(u);
+    const ok = r.ok ? '<span class="ok">✓ OK ' + r.status + '</span>' : '<span class="err">✗ ' + r.status + '</span>';
+    div.insertAdjacentHTML('beforeend', `<div class="row">${ok}  <code>${u}</code> （${r.headers.get('content-type')}）</div>`);
+  }
+}
+
+// 2. localStorage
+function testLS() {
+  const div = document.getElementById('ls-tests');
+  try {
+    localStorage.setItem('_test', '1');
+    localStorage.removeItem('_test');
+    div.insertAdjacentHTML('beforeend', '<div class="row"><span class="ok">✓</span> localStorage 可用</div>');
+  } catch (e) {
+    div.insertAdjacentHTML('beforeend', '<div class="row"><span class="err">✗</span> ' + e.message + '</div>');
+  }
+  const keys = ['healthDoneDates','healthDoneTasks','healthTodosByDate','healthBaseTodos','healthTrackLog'];
+  for (const k of keys) {
+    const v = localStorage.getItem(k);
+    div.insertAdjacentHTML('beforeend', `<div class="row">${v ? '📦 有数据' : '∅ 空'}  <code>${k}</code></div>`);
+  }
+}
+
+// 3. iframe（嵌入子页面测试）
+function testIframe() {
+  const div = document.getElementById('ifr-tests');
+  const urls = [
+    '/components/team.html',
+    '/components/checkin.html',
+    '/pages/mortise.html',
+  ];
+  for (const u of urls) {
+    const ifr = document.createElement('iframe');
+    ifr.src = u;
+    ifr.style.cssText = 'display:block;width:100%;height:80px;border:1px solid #ccc;margin:6px 0;';
+    ifr.onload = () => {
+      try {
+        const w = ifr.contentWindow;
+        const ok = w && w.document && w.document.body ? '<span class="ok">✓ 已加载</span>' : '<span class="err">✗ 未加载</span>';
+        div.insertAdjacentHTML('beforeend', `${ok} ${u}<br>`);
+      } catch (e) {
+        div.insertAdjacentHTML('beforeend', `<span class="err">✗ 跨域错误（CORS）</span> ${u} - ${e.message}<br>`);
+      }
+    };
+    ifr.onerror = () => {
+      div.insertAdjacentHTML('beforeend', `<span class="err">✗ onerror</span> ${u}<br>`);
+    };
+    document.body.appendChild(ifr);
+  }
+}
+
+// 4. 监听控制台错误
+const errList = document.getElementById('err-list');
+window.addEventListener('error', (e) => {
+  errList.insertAdjacentHTML('beforeend', `<div class="row err">⚠ ${e.message} (${e.filename}:${e.lineno})</div>`);
+});
+window.addEventListener('unhandledrejection', (e) => {
+  errList.insertAdjacentHTML('beforeend', `<div class="row err">⚠ Promise: ${e.reason}</div>`);
+});
+
+testFetch();
+testLS();
+testIframe();
+</script>
+</body>
+</html>
