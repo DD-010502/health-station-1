@@ -243,6 +243,18 @@
     opacity: .65;
     line-height: 1.5;
   }
+  .video-tile .body .meta {
+    margin-top: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 12px;
+    color: var(--ink);
+    opacity: .75;
+    line-height: 1.5;
+  }
+  .video-tile .body .meta .by { color: var(--orange); }
+  .video-tile .body .meta .intro { color: var(--grey); }
 
   .toc {
     position: sticky;
@@ -496,7 +508,10 @@ function renderModule(key) {
       <div class="cover"><div class="play">▶</div></div>
       <div class="body">
         <div class="t">${escapeHtml(v.title)}</div>
-        <div class="d">${escapeHtml(v.desc)}</div>
+        <div class="meta">
+          ${v.author ? `<span class="by">创作者：${escapeHtml(v.author)}</span>` : ''}
+          ${v.intro ? `<span class="intro">${escapeHtml(v.intro)}</span>` : ''}
+        </div>
       </div>
     </div>
   `).join('');
