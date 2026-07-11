@@ -236,7 +236,6 @@
   <img class="hero-img" src="assets/images/hero.png" alt="健康生活封面" />
   <div class="hero-overlay">
     <h1 id="heroTitle">How do you keep <span class="click" id="healthyWord">healthy</span>?</h1>
-    <p class="tip" id="heroTip">点击 healthy 试试看 ✨</p>
   </div>
 </header>
 
@@ -306,7 +305,6 @@
 const DEFAULT_PAGE_DATA = {
   heroImage: 'assets/images/hero.png',
   heroTitleHtml: 'How do you keep <span class="click" id="healthyWord">healthy</span>?',
-  heroTip: '点击 healthy 试试看 ✨',
   sections: [
     { id: 'sec-team',    num: 'Section 01', title: '一封信来自我们' },
     { id: 'sec-tangram', num: 'Section 02', title: '七巧板 · 健康行为小知识拼图' },
@@ -354,8 +352,6 @@ renderSections();
 function renderHero() {
   const titleEl = document.getElementById('heroTitle');
   if (titleEl && PAGE_DATA.heroTitleHtml) titleEl.innerHTML = PAGE_DATA.heroTitleHtml;
-  const tipEl = document.getElementById('heroTip');
-  if (tipEl && PAGE_DATA.heroTip) tipEl.textContent = PAGE_DATA.heroTip;
   const imgEl = document.querySelector('.hero-img');
   if (imgEl && PAGE_DATA.heroImage) imgEl.src = PAGE_DATA.heroImage;
 }

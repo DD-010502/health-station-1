@@ -169,8 +169,7 @@
 
   "ui": {
     "_comment": "UI 文案（按钮、链接等）",
-    "heroTitleHtml": "How do you keep <span class=\"click\">healthy</span>?",
-    "heroTip": "点击 healthy 试试看 ✨",
+    "heroTitleHtml": "How do you keep <span class=\"click\" id=\"healthyWord\">healthy</span>?",
     "sections": [
       { "id": "sec-team",    "num": "Section 01", "title": "一封信来自我们" },
       { "id": "sec-tangram", "num": "Section 02", "title": "七巧板 · 健康行为小知识拼图" },
