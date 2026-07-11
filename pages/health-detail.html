@@ -216,14 +216,21 @@
     background: #FFFFFF;
     border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 6px 20px -10px rgba(203, 104, 81, .25);
+    box-shadow: 0 6px 20px -10px rgba(43, 42, 40, .15);
     transition: all .3s ease;
     cursor: pointer;
-    border: 1.5px solid rgba(203, 104, 81, .15);
+    border: 1.5px solid rgba(43, 42, 40, .08);
+    text-decoration: none;   /* 去掉 <a> 默认下划线 */
+    color: var(--ink);       /* 黑色字体 */
+    display: block;
+  }
+  .video-tile, .video-tile:visited, .video-tile:hover, .video-tile:active {
+    text-decoration: none;
+    color: var(--ink);
   }
   .video-tile:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 28px -8px rgba(203, 104, 81, .4);
+    box-shadow: 0 12px 28px -8px rgba(43, 42, 40, .25);
   }
   .video-tile .cover {
     aspect-ratio: 16 / 10;
@@ -247,39 +254,51 @@
   }
   .video-tile .cover .play {
     width: 52px; height: 52px; border-radius: 50%;
-    background: rgba(255, 255, 255, .9);
+    background: rgba(255, 255, 255, .95);
     display: flex; align-items: center; justify-content: center;
-    color: var(--pink);
+    color: var(--ink);
     font-size: 22px;
-    box-shadow: 0 6px 18px rgba(203, 104, 81, .35);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .25);
     transition: transform .25s ease;
+    z-index: 1;
   }
   .video-tile:hover .play { transform: scale(1.1); }
-  .video-tile .body { padding: 14px 16px; }
+  .video-tile .body { padding: 14px 16px; text-decoration: none; }
+  .video-tile .body, .video-tile .body * {
+    text-decoration: none;
+    color: var(--ink);
+  }
   .video-tile .body .t {
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
     line-height: 1.4;
-    margin: 0 0 4px;
+    margin: 0 0 6px;
+    text-decoration: none;
   }
   .video-tile .body .d {
-    font-size: 12px;
-    color: var(--ink);
-    opacity: .65;
+    font-size: 13px;
+    color: var(--ink);    /* 纯黑，不用 opacity */
+    opacity: 1;
     line-height: 1.5;
+    text-decoration: none;
   }
   .video-tile .body .meta {
-    margin-top: 4px;
+    margin-top: 6px;
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    font-size: 12px;
-    color: var(--ink);
-    opacity: .75;
+    gap: 3px;
+    font-size: 13px;
+    color: var(--ink);    /* 纯黑 */
+    opacity: 1;
     line-height: 1.5;
+    text-decoration: none;
   }
-  .video-tile .body .meta .by { color: var(--orange); }
-  .video-tile .body .meta .intro { color: var(--grey); }
+  .video-tile .body .meta .by,
+  .video-tile .body .meta .intro {
+    color: var(--ink);    /* 全黑，不用橙色/灰色 */
+    text-decoration: none;
+  }
 
   /* ---------- TOC ---------- */
   .toc {
@@ -365,9 +384,10 @@
   .closing {
     margin-top: 32px;
     text-align: center;
-    background: linear-gradient(135deg, #FFE5D2 0%, #FFD0E2 50%, #D2E5FF 100%);
+    background: var(--pink);   /* 主页淡粉色，与整体风格一致 */
     border-radius: 18px;
     padding: 32px 20px;
+    border: 2px solid rgba(43, 42, 40, .08);
   }
   .closing h3 {
     margin: 0 0 8px;
