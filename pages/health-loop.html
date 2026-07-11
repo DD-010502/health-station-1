@@ -512,13 +512,21 @@ function renderModule(key) {
       <div class="body"><div class="t2">${escapeHtml(p.title)}</div></div>
     </a>
   `).join('');
-  const videoTiles = (mod.videos || []).filter(v => v && v.url && v.url.trim()).map(v => `
-    <div class="video-tile"
-         data-video-id="${escapeHtml(v.id)}" data-module-id="${escapeHtml(key)}"
-         data-video-url="${escapeHtml(v.url)}" data-title="${escapeHtml(v.title)}"
-         data-poster="${escapeHtml(v.poster || '')}"
-         data-duration="${v.durationSec || 0}" data-track-action="open_video">
-      <div class="cover"><div class="play">▶</div></div>
+  const videoTiles = (mod.videos || [])
+    .filter(v => v && v.url && v.url.trim())
+    .map(v => {
+      const coverUrl = v.cover ? resolveUrl(v.cover) : '';
+      return `
+    <a class="video-tile ${coverUrl ? 'has-cover' : ''}"
+       href="${escapeHtml(resolveUrl(v.url))}"
+       target="_blank"
+       rel="noopener"
+       data-video-id="${escapeHtml(v.id)}"
+       data-module-id="${escapeHtml(key)}"
+       data-video-url="${escapeHtml(v.url)}"
+       data-title="${escapeHtml(v.title)}"
+       data-track-action="open_video">
+      <div class="cover"${coverUrl ? ` style="background-image: url('${escapeHtml(coverUrl)}');"` : ''}><div class="play">▶</div></div>
       <div class="body">
         <div class="t">${escapeHtml(v.title)}</div>
         <div class="meta">
@@ -526,8 +534,8 @@ function renderModule(key) {
           ${v.intro ? `<span class="intro">${escapeHtml(v.intro)}</span>` : ''}
         </div>
       </div>
-    </div>
-  `).join('');
+    </a>
+  `;}).join('');
 
   return `
     <article class="module" id="mod-${key}" data-key="${key}">
