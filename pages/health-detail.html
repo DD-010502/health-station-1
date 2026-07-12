@@ -144,13 +144,14 @@
     .card h2 { font-size: 19px; margin-bottom: 10px; }
 
     .toc {
-      position: static;
+      position: static;          /* 不滑动 */
       padding: 16px;
-      margin-bottom: 28px;            /* 加大下方间距避免和 PDF 卡片视觉重叠 */
+      margin-bottom: 32px;       /* 加大间距确保 PDF 卡片不和 toc 重叠 */
       background: #FFFFFF;
-      border: 2px solid rgba(43, 42, 40, .2);
+      border: 2px solid rgba(43, 42, 40, .25);
       border-radius: 14px;
-      box-shadow: 0 4px 14px rgba(43, 42, 40, .12);
+      box-shadow: 0 4px 16px rgba(43, 42, 40, .15);
+      z-index: 1;
     }
     .toc h3 { font-size: 14px; margin-bottom: 8px; }
     .toc-item { font-size: 13px; padding: 8px 10px; }
