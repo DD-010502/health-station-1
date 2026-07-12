@@ -113,6 +113,7 @@
     font-size: clamp(22px, 2.4vw, 28px);
     color: var(--text-muted);
     user-select: none;
+    word-break: keep-all;       /* 中文不断字 */
   }
   .chapter-anchor .num {
     display: block;
@@ -249,7 +250,15 @@
     .decor.d4 { right: 2%; }
 
     /* 章节间隔 */
-    .chapter-anchor { height: 36px; }
+    .chapter-anchor {
+      height: auto;             /* 覆盖桌面端的 80px 等 */
+      min-height: 36px;
+      padding: 18px 16px 10px;
+      font-size: 17px;         /* 缩小防止溢出 */
+      line-height: 1.45;
+    }
+    .chapter-anchor .num { font-size: 11px; }
+    .chapter-anchor span { display: block; }  /* 长标题强制换行 */
 
     /* iframe 在手机上更高（手机单独堆叠） */
     iframe.frame { min-height: 380px; }

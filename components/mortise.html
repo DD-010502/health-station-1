@@ -76,6 +76,28 @@
     .letter-card p { font-size: 14px; line-height: 1.7; }
     .letter-sign { font-size: 13px; }
     .bus-card img { max-width: 80%; }
+
+    /* mortise 特有：铁锤+榫卯场景缩小到手机宽度 */
+    .workbench {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      margin: 18px auto 0;
+    }
+    .hammer-wrap, .hammer {
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+    }
+    .tenon, .mortise, .sparks {
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+    }
+    .tenon.drop { transform: translateY(50px); }
+
+    .state-tag { font-size: 10px; }
+
     /* checkin 特有 */
     .todo-input { grid-template-columns: 1fr; gap: 6px; }
     .todo-input input { padding: 8px 12px; }

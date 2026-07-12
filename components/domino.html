@@ -167,9 +167,33 @@
     .top-nav { top: 12px; left: 12px; }
     .back-btn { padding: 8px 14px; font-size: 13px; }
     .scene { padding: 12px 16px; gap: 16px; }
-    .dominoes { grid-template-columns: repeat(2, 1fr); row-gap: 16px; }
-    .domino-tile { font-size: 12px; padding: 12px; }
-    .headline h1 { font-size: clamp(24px, 7vw, 40px); padding: 0 16px; }
+
+    /* 6 张牌横排在一行：380px 屏幕减去 padding 和 gap，约每张 50-55px */
+    .dominoes {
+      grid-template-columns: repeat(6, 1fr);
+      column-gap: 4px;
+      row-gap: 0;
+      padding: 0 4px;
+    }
+    .domino-tile {
+      font-size: 9px;
+      padding: 6px 2px;
+      min-height: 80px;
+    }
+    .domino-tile .num { font-size: 8px; }
+    .domino-tile .label { font-size: 8px; line-height: 1.1; }
+    .domino-tile svg { width: 100%; height: auto; }
+
+    /* 灯放在牌的下方（不横排在右边） */
+    .lamp-wrap {
+      order: 1;
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .lamp { width: 60px; height: 60px; }
+
+    .headline h1 { font-size: clamp(22px, 6vw, 32px); padding: 0 12px; }
     .copy p { font-size: 14px; }
   }
 </style>

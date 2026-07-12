@@ -149,9 +149,11 @@
   /* 移动端适配 */
   @media (max-width: 700px) {
     .stage { padding: 12px; gap: 12px; }
-    .pieces { grid-template-columns: repeat(7, 1fr); }
+    /* 单列竖排，让 7 个七巧板片在手机上清晰可点 */
+    .pieces { grid-template-columns: 1fr; row-gap: 16px; column-gap: 0; }
+    .piece-row { grid-template-columns: 1fr; }
+    .fly svg { max-width: 100%; height: auto; }
     .board-wrap { padding: 0 12px; }
-    .fly svg { max-width: 60px; }
   }
 </style>
 </head>
