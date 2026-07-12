@@ -146,10 +146,13 @@
     .toc {
       position: static;
       padding: 14px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
+      background: #FFFFFF;           /* 明确白色背景避免透出 */
+      border: 2px solid rgba(43, 42, 40, .15);
+      box-shadow: 0 4px 12px rgba(43, 42, 40, .08);
     }
     .toc h3 { font-size: 14px; margin-bottom: 8px; }
-    .toc-item { font-size: 13px; padding: 6px 0; }
+    .toc-item { font-size: 13px; padding: 8px 10px; }
 
     /* PDF/视频卡片单列显示 */
     .pdf-row, .video-row { grid-template-columns: 1fr; gap: 10px; }
