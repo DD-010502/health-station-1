@@ -188,10 +188,26 @@
     .lamp-wrap { display: none !important; }
 
     /* 箭头放字下面单独一行（display: block） */
-    .arrow { display: block; margin: 8px auto 0; }
+    .arrow { display: block; margin: 12px auto 0; }
 
+    /* 多米诺文字居中、缩小、缩短行高 */
     .headline h1 { font-size: clamp(22px, 6vw, 32px); padding: 0 12px; }
     .copy p { font-size: 14px; margin-bottom: 6px; }
+
+    /* 文字段居中（mobile 专属） */
+    .text {
+      display: block;
+      text-align: center;
+      line-height: 1.6;
+      padding: 0 8px;
+    }
+    /* 链接整体居中 */
+    .corner-link {
+      text-align: center;
+    }
+
+    /* 缩小 iframe 底部 section 之间的空白 */
+    .section-wrap { margin: 0; padding: 0; }
   }
 </style>
 </head>
@@ -267,7 +283,7 @@
    DOMINO_DATA — editable text, backend-injectable via window.DOMINO_DATA
    ===================================================================== */
 const DOMINO_DATA = Object.assign({
-  linkText: '点一下 <em>第一块</em>，看它们如何点亮小灯。<br/>请继续了解健康行为之间是如何环环紧密关联的～',
+  linkText: '点一下 <em>第一块</em>，看它们如何点亮小灯。<br/>了解健康行为之间是如何环环紧密关联的～',
 }, window.DOMINO_DATA || {});
 
 (function renderDominoText() {
