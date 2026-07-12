@@ -149,11 +149,26 @@
   /* 移动端适配 */
   @media (max-width: 700px) {
     .stage { padding: 12px; gap: 12px; }
-    /* 一行 2 个七巧板，缩到手机宽度 */
-    .pieces { grid-template-columns: repeat(2, 1fr); row-gap: 12px; column-gap: 10px; }
-    .piece-row { grid-template-columns: 1fr 16px 1fr; gap: 6px; }
+    /* 一行 2 个七巧板，缩到手机宽度（确保第二列不被切） */
+    .pieces {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      row-gap: 14px;
+      column-gap: 10px;
+      padding: 0 4px;
+    }
+    /* piece 内部：图和字各占一行（防止 piece-row 内 3 列压缩 SVG 超出） */
+    .piece-row {
+      grid-template-columns: 1fr !important;
+      gap: 4px;
+    }
+    .fly { width: 100%; margin-bottom: 4px; }
+    .fly svg {
+      width: 100% !important;
+      height: auto !important;
+      max-width: 100%;
+      display: block;
+    }
     .piece-row .label { font-size: 12px; line-height: 1.2; }
-    .fly svg { max-width: 100%; height: auto; }
     .board-wrap { padding: 0 12px; }
   }
 </style>

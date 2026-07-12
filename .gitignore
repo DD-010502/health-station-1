@@ -35,3 +35,4 @@ uploads/
 # R / 系统临时文件
 .Rhistory
 *.tmp
+test/

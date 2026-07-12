@@ -235,6 +235,11 @@
      - 700px 以上：完全保持原样
      ============================================================ */
   @media (max-width: 700px) {
+    /* 全局字体继承（防止 Google Fonts 加载失败时变方块字） */
+    *, *::before, *::after {
+      font-family: inherit !important;
+    }
+
     /* Hero 区域 */
     .hero { height: clamp(280px, 50vh, 480px); }
     .hero-overlay { padding-bottom: 32px; gap: 8px; }
@@ -249,19 +254,25 @@
     .decor.d3 { left: 3%; }
     .decor.d4 { right: 2%; }
 
-    /* 章节间隔 */
+    /* 章节间隔：紧凑化 */
     .chapter-anchor {
-      height: auto;             /* 覆盖桌面端的 80px 等 */
-      min-height: 36px;
-      padding: 18px 16px 10px;
-      font-size: 17px;         /* 缩小防止溢出 */
-      line-height: 1.45;
+      height: auto;
+      min-height: 28px;
+      padding: 12px 16px 6px;
+      font-size: 17px;
+      line-height: 1.4;
     }
     .chapter-anchor .num { font-size: 11px; }
-    .chapter-anchor span { display: block; }  /* 长标题强制换行 */
+    .chapter-anchor span { display: block; }
 
-    /* iframe 在手机上更高（手机单独堆叠） */
-    iframe.frame { min-height: 380px; }
+    /* iframe 紧凑：内容是子页面，PC 上有 fitIframe 动态调整 */
+    iframe.frame {
+      min-height: 220px;       /* 桌面 700-760px → 移动 220px */
+      height: 320px;
+    }
+
+    /* Section 之间不留额外空白（依赖 margin 0） */
+    .section-wrap { margin: 0; padding: 0; }
 
     /* Section 04 的外链更紧凑 */
     .section-corner-link {
