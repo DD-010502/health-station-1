@@ -163,56 +163,7 @@
   }
 
   /* 移动端适配 */
-  @media (max-width: 700px) {
-    .top-nav { top: 12px; left: 12px; }
-    .back-btn { padding: 8px 14px; font-size: 13px; }
-    .scene { padding: 8px 16px 4px; gap: 4px; }
 
-    /* 6 张牌横排在一行：380px 屏幕减去 padding 和 gap */
-    .dominoes {
-      grid-template-columns: repeat(6, 1fr);
-      column-gap: 2px;
-      row-gap: 0;
-      padding: 0 4px;
-    }
-    .domino-tile {
-      font-size: 9px;
-      padding: 4px 1px;
-      min-height: 56px;          /* 原 70 → 56，缩小 */
-    }
-    .domino-tile .num { font-size: 8px; }
-    .domino-tile .label { font-size: 8px; line-height: 1.1; }
-    .domino-tile svg { width: 100%; height: auto; }
-
-    /* 完全删除煤油灯 */
-    .lamp-wrap { display: none !important; }
-
-    /* 箭头 + 文字紧凑 */
-    .arrow { display: block; margin: 6px auto 0; width: 24px; height: 24px; }
-
-    /* 文字居中、紧凑 */
-    .headline h1 { font-size: clamp(22px, 6vw, 32px); padding: 0 12px; }
-    .copy p { font-size: 14px; margin-bottom: 6px; }
-
-    /* 文字段居中、缩短行高 */
-    .text {
-      display: block;
-      text-align: center;
-      line-height: 1.5;
-      padding: 0 8px;
-    }
-    .corner-link {
-      text-align: center;
-      margin-top: 4px;             /* 紧凑与上面间距 */
-    }
-    .corner-link .text { margin-bottom: 0; }
-
-    /* 缩小 iframe 整体（让 mobile 区域紧凑） */
-    iframe.frame { min-height: 200px; height: 280px; }
-
-    /* 删底部 section 留白 */
-    .section-wrap { margin: 0; padding: 0; }
-  }
 
     /* 多米诺文字居中、缩小、缩短行高 */
     .headline h1 { font-size: clamp(22px, 6vw, 32px); padding: 0 12px; }
@@ -232,7 +183,42 @@
 
     /* 缩小 iframe 底部 section 之间的空白 */
     .section-wrap { margin: 0; padding: 0; }
+
+  /* 手机端适配块移到文件末尾：确保能覆盖上面的基础样式 */
+  @media (max-width: 700px) {
+    /* 手机上让页面高度跟随内容，首页 iframe 会自动收到刚好合适的高度，不留空白 */
+    html, body { height: auto; }
+    /* 手机上整体收紧；6 张牌改成 3 列 × 2 行，比挤在一行清楚得多 */
+    .board { padding: 12px 16px 4px; }
+    .scene { grid-template-columns: 1fr; row-gap: 10px; }
+    .dominoes {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      column-gap: 14px;
+      row-gap: 14px;
+      padding: 0 4px;
+      justify-items: center;
+    }
+    .domino { width: 100%; max-width: 76px; }
+
+    /* 煤油灯保留下来（文案里说"点亮小灯"），缩小后居中放在骨牌下方 */
+    .lamp-wrap { display: block; width: auto; justify-self: center; }
+    .lamp svg { width: 52px; }
+
+    /* 链接文案：整行居中，箭头另起一行，不再挤成窄条 */
+    .corner-link {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 2px;
+      padding: 12px 16px 6px;
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+    .corner-link .text { max-width: 320px; }
+    .corner-link .arrow { width: 26px; height: 26px; margin: 0 auto; }
   }
+
 </style>
 </head>
 <body>

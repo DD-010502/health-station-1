@@ -490,10 +490,17 @@ function fitIframe(iframe) {
     try {
       const doc = iframe.contentDocument;
       if (!doc) return;
-      const h = Math.max(
+      let h = Math.max(
         doc.documentElement.scrollHeight,
         doc.body ? doc.body.scrollHeight : 0
       );
+      /* 手机上子页面高度是 auto，直接用 body 的实际高度即可。
+         否则 documentElement.scrollHeight 会等于 iframe 当前高度，
+         高度只会保持或变大，永远收不回去，页面上就会留下大片空白。
+         （>700px 的电脑端保持原逻辑不变） */
+      if (window.innerWidth <= 700 && doc.body && doc.body.scrollHeight > 0) {
+        h = doc.body.scrollHeight;
+      }
       if (h > 0) iframe.style.height = h + 'px';
     } catch (e) { /* cross-origin */ }
   };
