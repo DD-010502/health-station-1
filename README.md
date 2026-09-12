@@ -1,24 +1,24 @@
 # 健康小站
 
-这是一个用于青少年健康教育的纯静态网站项目。
+青少年健康教育纯静态网站。线上地址：https://health.hdykh-dd.com/
 
-## 本地预览
+## 👉 网站本体在 `docs/` 文件夹
 
-```bash
-python3 -m http.server 8000
-# 浏览器访问 http://localhost:8000
-```
+以后所有工作都在 **`docs/`** 里进行，先读这一份：
 
-## 更新内容
+**[docs/README.md](docs/README.md)** —— 目录地图、内容怎么改、上线怎么发、改坏怎么回滚。
 
-编辑 `content.json`，所有文字 / 视频 / PDF 都通过这个文件配置。
+## 仓库其他内容
 
-上传文件后：
+| 位置 | 说明 |
+|---|---|
+| `docs/` | **网站本体**（唯一需要编辑的地方） |
+| `_archive/` | 历史文档、旧截图、测试文件（不参与发布，可忽略） |
+| 根目录的 `index.html` 等 | 旧的发布副本，切换发布源后会删除，暂时不要动 |
 
-```bash
-git add -A
-git commit -m "更新内容"
-git push
-```
+## 发布说明
 
-详细说明见 `DEPLOYMENT_NOTES.md`。
+网站通过 GitHub Pages 发布。发布源需要设置为 **`main` 分支的 `/docs` 目录**
+（仓库 → Settings → Pages → Source → Deploy from a branch → `main` / `/docs`）。
+
+设置完成前，网站仍然从仓库根目录发布，两边内容目前完全一致。

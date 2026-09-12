@@ -13,9 +13,6 @@ backend/data/
 uploads/
 !uploads/.gitkeep
 
-# 旧文档
-/docs/.Rhistory
-
 # ========== 大文件策略 ==========
 # 默认：视频和大 PDF 不入 git（应用 OSS / CDN / 公众号文章链接）
 # 例外：assets/pdfs 下的 PDF（小文件 / 教学资源）允许入 git
@@ -27,12 +24,20 @@ uploads/
 *.pdf
 
 # 放行白名单（覆盖上面的排除规则）
+# 注意：带斜杠的规则以本文件所在目录为基准，所以 docs/assets 必须单独放行
 !assets/**/*.pdf
 !assets/**/*.mp4
 !assets/**/*.webm
 !assets/**/*.mov
+!docs/assets/**/*.pdf
+!docs/assets/**/*.mp4
+!docs/assets/**/*.webm
+!docs/assets/**/*.mov
 
 # R / 系统临时文件
 .Rhistory
 *.tmp
 test/
+
+# 本地归档（旧文档 / 截图 / 测试文件，不参与网站发布）
+_archive/
