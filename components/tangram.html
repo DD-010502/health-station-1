@@ -121,19 +121,34 @@
   .board .p { opacity: 0; transition: opacity .35s ease; }
   .board .p.placed { opacity: 1; }
 
+  /* ---------- 提示胶囊（Section 02/03/04 统一用这一套） ---------- */
   .board-hint {
     grid-column: 1 / -1;
-    text-align: right;
+    justify-self: end;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
     font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", "Liu Jian Mao Cao", "PingFang SC", cursive, sans-serif;
-    font-size: 13px;
+    font-size: 15px;
+    line-height: 1.55;
     color: var(--ink);
-    opacity: .7;
-    line-height: 1.6;
-    margin-top: 8px;
-    padding-right: 8px;
+    background: rgba(255, 255, 255, .9);
+    border: 1.5px solid rgba(43, 42, 40, .2);
+    border-radius: 16px;
+    padding: 11px 20px;
+    box-shadow: 0 3px 12px rgba(43, 42, 40, .08);
+    margin: 20px 0 0;
+  }
+  .board-hint::before {
+    content: "";
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #C24A1F;
+    flex: 0 0 auto;
   }
   @media (max-width: 900px) {
-    .board-hint { text-align: center; padding-right: 0; }
+    .board-hint { justify-self: center; }
   }
 
   .fly {
@@ -186,7 +201,7 @@
 
     /* 拼图底板收窄，手机上不留一大片空白 */
     .board-wrap { max-width: 200px; margin: 2px auto 0; }
-    .board-hint { font-size: 12px; line-height: 1.55; margin-top: 10px; padding: 0 4px; }
+    .board-hint { justify-self: center; font-size: 14px; margin-top: 14px; }
   }
 </style>
 </head>

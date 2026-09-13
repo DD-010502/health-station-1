@@ -112,6 +112,20 @@ git push
 
 ## 7. 手机端适配规矩
 
+### 7.0 三处提示词是同一套样式（改动时请一起改）
+
+首页 Section 02 / 03 / 04 底部的提示，统一做成"提示胶囊"：白底 + 细边框 + 阴影 + 橙色圆点 + 15px 字。
+样式分散在三个文件里，格式要一起维护：
+
+| 位置 | 文件 | 选择器 |
+|---|---|---|
+| S2 七巧板提示 | `components/tangram.html` | `.board-hint` |
+| S3 多米诺链接 | `components/domino.html` | `.corner-link` |
+| S4 榫卯链接（iframe 外） | `index.html` | `.section-corner-link .corner-link` |
+| S4 榫卯操作提示 | `components/mortise.html` | `.state-tag` |
+
+改动其中一处时，记得把另外三处的字号、内边距、圆角、圆点大小保持一致。
+
 手机端的改动**全部集中在**每个页面末尾的这段里：
 
 ```css

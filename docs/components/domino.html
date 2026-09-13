@@ -55,28 +55,42 @@
     position: relative;
   }
 
-  /* Right-bottom corner: single link with arrow.
-     Pushed well below the dominoes so it never overlaps the falling tiles. */
+  /* ---------- 提示胶囊（Section 02/03/04 统一用这一套） ----------
+     放在骨牌下方右侧，做成有底色的胶囊，比原来的灰色小字醒目得多 */
   .corner-link {
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
     gap: 12px;
+    width: fit-content;
+    max-width: calc(100% - 56px);
+    margin: 0 56px 0 auto;
     text-decoration: none;
     color: var(--ink);
     font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", "Liu Jian Mao Cao", "PingFang SC", cursive, sans-serif;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.55;
-    max-width: 100%;
-    text-align: right;
-    padding: 12px 56px 8px;
+    text-align: left;
+    background: rgba(255, 255, 255, .9);
+    border: 1.5px solid rgba(43, 42, 40, .2);
+    border-radius: 16px;
+    padding: 11px 20px;
+    box-shadow: 0 3px 12px rgba(43, 42, 40, .08);
+    transition: transform .25s ease;
     z-index: 5;
   }
+  .corner-link::before {
+    content: "";
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #C24A1F;
+    flex: 0 0 auto;
+  }
+  .corner-link:hover { transform: translateY(-2px); }
   .corner-link .text { flex: 0 1 auto; }
   .corner-link .arrow {
-    width: 36px;
-    height: 36px;
+    width: 22px;
+    height: 22px;
     flex: 0 0 auto;
     transition: transform .25s ease;
   }
@@ -162,28 +176,9 @@
     50%      { transform: scale(1.06) translateY(-1px); }
   }
 
-  /* 移动端适配 */
-
-
-    /* 多米诺文字居中、缩小、缩短行高 */
-    .headline h1 { font-size: clamp(22px, 6vw, 32px); padding: 0 12px; }
-    .copy p { font-size: 14px; margin-bottom: 6px; }
-
-    /* 文字段居中（mobile 专属） */
-    .text {
-      display: block;
-      text-align: center;
-      line-height: 1.6;
-      padding: 0 8px;
-    }
-    /* 链接整体居中 */
-    .corner-link {
-      text-align: center;
-    }
-
-    /* 缩小 iframe 底部 section 之间的空白 */
-    .section-wrap { margin: 0; padding: 0; }
-
+  /* 说明：这里原本有一段"漏在媒体查询外面"的样式（.text / .corner-link 居中），
+     是 7 月手机端调整时手滑留下的，一直在偷偷改电脑端的样子。
+     2026-09-13 统一提示样式时已清除，需要居中的规则都放进了下面的 700px 块里。 */
   /* 手机端适配块移到文件末尾：确保能覆盖上面的基础样式 */
   @media (max-width: 700px) {
     /* 手机上让页面高度跟随内容，首页 iframe 会自动收到刚好合适的高度，不留空白 */
@@ -204,19 +199,18 @@
     .lamp-wrap { display: block; width: auto; justify-self: center; }
     .lamp svg { width: 52px; }
 
-    /* 链接文案：整行居中，箭头另起一行，不再挤成窄条 */
+    /* 手机上胶囊居中显示，文字可换行 */
     .corner-link {
-      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      text-align: center;
-      gap: 2px;
-      padding: 12px 16px 6px;
-      font-size: 13.5px;
-      line-height: 1.6;
+      gap: 6px;
+      margin: 14px auto 4px;
+      max-width: 100%;
+      padding: 10px 14px;
+      font-size: 13px;
+      line-height: 1.55;
     }
-    .corner-link .text { max-width: 320px; }
-    .corner-link .arrow { width: 26px; height: 26px; margin: 0 auto; }
+    .corner-link .text { max-width: 100%; }
+    .corner-link .arrow { width: 18px; height: 18px; margin: 0; }
   }
 
 </style>
@@ -294,12 +288,19 @@
    ===================================================================== */
 const DOMINO_DATA = Object.assign({
   linkText: '点一下 <em>第一块</em>，看它们如何点亮小灯。<br/>了解健康行为之间是如何环环紧密关联的～',
+  /* 手机宽度窄，用短一点的版本，避免挤成三四行 */
+  linkTextMobile: '点一下<em>第一块</em>，看小灯如何亮起～<br/>了解健康行为之间环环相扣的关联',
 }, window.DOMINO_DATA || {});
 
-(function renderDominoText() {
+function renderDominoText() {
   const el = document.getElementById('dominoLinkText');
-  if (el && DOMINO_DATA.linkText) el.innerHTML = DOMINO_DATA.linkText;
-})();
+  if (!el) return;
+  const isPhone = window.matchMedia('(max-width: 700px)').matches;
+  const text = (isPhone && DOMINO_DATA.linkTextMobile) ? DOMINO_DATA.linkTextMobile : DOMINO_DATA.linkText;
+  if (text) el.innerHTML = text;
+}
+renderDominoText();
+window.addEventListener('resize', renderDominoText);
 
 const TILES = [
   { id: 'd1', pip: 1, color: '#F4B860' },

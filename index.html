@@ -164,32 +164,43 @@
     letter-spacing: .04em;
     font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", "Liu Jian Mao Cao", "PingFang SC", cursive, sans-serif;
   }
-  /* ---------- 章节外右下角链接 ---------- */
+  /* ---------- 章节外右下角链接（与 Section 02/03 的提示胶囊同一套样式） ---------- */
   .section-corner-link {
     display: flex;
     justify-content: flex-end;
-    padding: 14px 36px 24px;
+    padding: 10px 56px 26px;
   }
   .section-corner-link .corner-link {
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", "Liu Jian Mao Cao", cursive;
+    font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", "Liu Jian Mao Cao", "PingFang SC", cursive, sans-serif;
     font-size: 15px;
-    line-height: 1.5;
+    line-height: 1.55;
     color: var(--ink);
     text-decoration: none;
-    max-width: 360px;
-    text-align: right;
-    transform: rotate(-1.5deg);
+    max-width: 100%;
+    text-align: left;
+    background: rgba(255, 255, 255, .9);
+    border: 1.5px solid rgba(43, 42, 40, .2);
+    border-radius: 16px;
+    padding: 11px 20px;
+    box-shadow: 0 3px 12px rgba(43, 42, 40, .08);
     transition: transform .25s ease;
+  }
+  .section-corner-link .corner-link::before {
+    content: "";
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex: 0 0 auto;
   }
   .section-corner-link .corner-link:hover {
     color: var(--accent);
-    transform: rotate(-3deg) translateX(4px);
+    transform: translateY(-2px);
   }
   .section-corner-link .arrow {
-    width: 40px; height: 40px;
+    width: 22px; height: 22px;
     flex-shrink: 0;
     transition: transform .25s ease;
   }
@@ -276,13 +287,18 @@
 
     /* Section 04 的外链更紧凑 */
     .section-corner-link {
-      padding: 8px 16px 16px;
+      padding: 4px 16px 18px;
       justify-content: center;
     }
     .section-corner-link .corner-link {
       font-size: 13px;
       max-width: none;
       text-align: center;
+      padding: 10px 16px;
+      gap: 8px;
+    }
+    .section-corner-link .arrow {
+      width: 20px; height: 20px;
     }
 
     /* Footer */
@@ -340,7 +356,7 @@
   <iframe class="frame" scrolling="no" src="components/mortise.html" style="height: 700px;" title="Mortise"></iframe>
   <div class="section-corner-link">
     <a class="corner-link" href="pages/mortise.html" target="_blank" rel="noopener">
-      <span class="text">点击请打开「计划与行动」完整子页 →</span>
+      <span class="text">点击打开「计划与行动」完整子页</span>
       <svg class="arrow" viewBox="0 0 64 64" aria-hidden="true">
         <path d="M10 32 Q 28 22, 46 32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
         <path d="M40 24 L 48 32 L 40 40" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>

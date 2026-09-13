@@ -71,8 +71,8 @@
     position: relative;
     width: 100%;
     max-width: 680px;          /* wider so the swing has room to read large */
-    margin: 36px auto 0;
-    height: 780px;             /* taller to accommodate scaled-up parts */
+    margin: 10px auto 0;
+    height: auto;              /* 原来是固定 780px，内容只用到 ~630px，留了一大片空白 */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -171,22 +171,30 @@
 
   /* corner-link 已迁移到 index.html（Section 04 iframe 外） */
 
+  /* ---------- 提示胶囊（Section 02/03/04 统一用这一套） ----------
+     order:-1 把它排到铁锤上方，紧挨着要点的东西，不再离得老远 */
   .state-tag {
-    margin-top: 22px;
-    font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", "Liu Jian Mao Cao", cursive;
-    font-size: 10px;
-    letter-spacing: .22em;
-    text-transform: uppercase;
-    color: var(--grey);
+    order: -1;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 10px;
+    font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", "Liu Jian Mao Cao", "PingFang SC", cursive, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink);
+    background: rgba(255, 255, 255, .9);
+    border: 1.5px solid rgba(43, 42, 40, .2);
+    border-radius: 16px;
+    padding: 10px 20px;
+    box-shadow: 0 3px 12px rgba(43, 42, 40, .08);
   }
   .state-tag .dot {
-    display: inline-block;
-    width: 6px; height: 6px;
-    background: var(--accent);
+    width: 8px; height: 8px;
+    background: #C24A1F;
     border-radius: 50%;
-    margin-right: 6px;
-    vertical-align: middle;
-    transform: translateY(-1px);
+    margin: 0;
+    flex: 0 0 auto;
   }
 
   /* 手机端适配块移到文件末尾：确保能覆盖上面的基础样式 */
@@ -197,13 +205,8 @@
     .stage { padding: 10px 16px 20px; gap: 0; }
     .workbench { width: 100%; max-width: 100%; height: auto; margin: 0 auto; }
 
-    /* 操作提示挪到最上面（原本在木料下方，离木槌很远） */
-    .state-tag {
-      order: -1;
-      font-size: 13px;
-      margin: 0 0 8px;
-      opacity: .85;
-    }
+    /* 手机上提示同样在铁锤上方，尺寸收小一点 */
+    .state-tag { font-size: 13px; margin: 0 0 8px; padding: 8px 16px; }
 
     .hammer-wrap, .hammer { width: 100%; max-width: 230px; height: auto; }
     .tenon, .mortise { width: 100%; max-width: 300px; height: auto; }
