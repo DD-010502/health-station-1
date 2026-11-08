@@ -140,6 +140,8 @@
     box-shadow: 0 8px 30px rgba(43, 42, 40, .12);
     max-width: 100%;
     margin: 20px 0 0;
+    /* 只上移提示本身，不改变占位和其他板块的位置 */
+    transform: translateY(-16px);
   }
   .board-hint::before {
     content: "";
@@ -210,6 +212,7 @@
       margin-top: 16px;
       border-radius: 28px;
       box-shadow: 0 6px 22px rgba(43, 42, 40, .10);
+      transform: none;
     }
     .board-hint::before { width: 12px; height: 12px; }
   }
