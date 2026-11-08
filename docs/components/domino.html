@@ -61,27 +61,27 @@
     position: relative;
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 28px;
     width: fit-content;
     max-width: calc(100% - 56px);
     margin: 0 56px 0 auto;
     text-decoration: none;
     color: var(--ink);
     font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", "Liu Jian Mao Cao", "PingFang SC", cursive, sans-serif;
-    font-size: 25px;
+    font-size: 35px;
     line-height: 1.55;
     text-align: left;
     background: rgba(255, 255, 255, .9);
     border: 1.5px solid rgba(43, 42, 40, .2);
-    border-radius: 28px;
-    padding: 20px 32px;
-    box-shadow: 0 6px 22px rgba(43, 42, 40, .10);
+    border-radius: 40px;
+    padding: 28px 45px;
+    box-shadow: 0 8px 30px rgba(43, 42, 40, .12);
     transition: transform .25s ease;
     z-index: 5;
   }
   .corner-link::before {
     content: "";
-    width: 14px; height: 14px;
+    width: 20px; height: 20px;
     border-radius: 50%;
     background: #C24A1F;
     flex: 0 0 auto;
@@ -89,8 +89,8 @@
   .corner-link:hover { transform: translateY(-2px); }
   .corner-link .text { flex: 0 1 auto; }
   .corner-link .arrow {
-    width: 36px;
-    height: 36px;
+    width: 50px;
+    height: 50px;
     flex: 0 0 auto;
     transition: transform .25s ease;
   }
@@ -208,6 +208,8 @@
       padding: 14px 20px;
       font-size: 20px;
       line-height: 1.55;
+      border-radius: 28px;
+      box-shadow: 0 6px 22px rgba(43, 42, 40, .10);
     }
     .corner-link .text { max-width: 100%; }
     .corner-link::before { width: 12px; height: 12px; }
