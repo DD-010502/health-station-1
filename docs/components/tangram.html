@@ -138,10 +138,10 @@
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    width: 100%;
+    width: max-content;
     text-align: left;
     font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", "Liu Jian Mao Cao", "PingFang SC", cursive, sans-serif;
-    font-size: 16px;
+    font-size: 30px;
     line-height: 1.55;
     color: var(--ink);
     background: rgba(255, 255, 255, .9);
@@ -149,8 +149,9 @@
     border-radius: 20px;
     padding: 10px 14px;
     box-shadow: 0 4px 14px rgba(43, 42, 40, .10);
-    max-width: 100%;
+    max-width: calc(100vw - 64px);
     margin: 0;
+    align-self: flex-end;
   }
   .board-hint::before {
     content: "";
@@ -161,7 +162,7 @@
   }
   .board-hint .hint-accent {
     color: #D32F2F;
-    font-size: 1.25em;
+    font-size: inherit;
     font-weight: 700;
     line-height: 1.25;
     white-space: nowrap;
@@ -266,8 +267,8 @@
    TANGRAM_DATA — editable text, backend-injectable via window.TANGRAM_DATA
    ===================================================================== */
 const TANGRAM_DATA = Object.assign({
-  hintText: '<span class="hint-copy"><strong class="hint-accent">点击任意一块七巧板，</strong>完成它对应的拼图，并学习相应的健康小知识吧～</span>',
-  hintTextMobile: '<span class="hint-copy"><strong class="hint-accent">点击任意一块七巧板，</strong>完成它对应的拼图，并学习相应的健康小知识吧～</span>',
+  hintText: '<span class="hint-copy"><strong class="hint-accent">点击任意一块七巧板，</strong>学习相应的健康小知识吧～</span>',
+  hintTextMobile: '<span class="hint-copy"><strong class="hint-accent">点击任意一块七巧板，</strong>学习相应的健康小知识吧～</span>',
 }, window.TANGRAM_DATA || {});
 
 function renderTangramText() {
