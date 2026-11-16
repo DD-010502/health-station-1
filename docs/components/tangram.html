@@ -150,6 +150,14 @@
     background: #C24A1F;
     flex: 0 0 auto;
   }
+  .board-hint .hint-accent {
+    color: #D32F2F;
+    font-size: 1.25em;
+    font-weight: 700;
+    line-height: 1.25;
+    white-space: nowrap;
+  }
+  .board-hint .hint-copy { min-width: 0; }
   @media (max-width: 900px) {
     .board-hint { justify-self: center; }
   }
@@ -262,9 +270,8 @@
    TANGRAM_DATA — editable text, backend-injectable via window.TANGRAM_DATA
    ===================================================================== */
 const TANGRAM_DATA = Object.assign({
-  hintText: '点击任意一块七巧板，完成它对应的拼图～<br/>随后自动打开对应的健康知识小页面',
-  /* 手机端图形在上方、排成两列，没有"左侧"，所以单独给一套说法 */
-  hintTextMobile: '点一下任意图形，完成对应拼图～<br/>随后自动打开健康小知识',
+  hintText: '<span class="hint-copy"><strong class="hint-accent">点击任意一块七巧板，</strong>完成它对应的拼图，并学习相应的健康小知识吧～</span>',
+  hintTextMobile: '<span class="hint-copy"><strong class="hint-accent">点击任意一块七巧板，</strong>完成它对应的拼图，并学习相应的健康小知识吧～</span>',
 }, window.TANGRAM_DATA || {});
 
 function renderTangramText() {
