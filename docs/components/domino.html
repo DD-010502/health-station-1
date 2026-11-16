@@ -87,7 +87,10 @@
     background: #C24A1F;
     flex: 0 0 auto;
   }
-  .corner-link:hover { transform: translateY(-2px); }
+  .corner-link:hover {
+    color: #C24A1F;
+    transform: translateY(-2px);
+  }
   .corner-link:focus-visible {
     outline: 3px solid rgba(211, 47, 47, .45);
     outline-offset: 4px;
@@ -255,8 +258,8 @@
           </filter>
         </defs>
         <g filter="url(#arrRough)">
-          <path d="M10 32 Q 28 22, 46 32" fill="none" stroke="#2B2A28" stroke-width="3" stroke-linecap="round"/>
-          <path d="M40 24 L 48 32 L 40 40" fill="none" stroke="#2B2A28" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10 32 Q 28 22, 46 32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M40 24 L 48 32 L 40 40" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
         </g>
       </svg>
     </a>
