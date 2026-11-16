@@ -45,10 +45,10 @@
 
   .stage {
     display: grid;
-    grid-template-columns: 1.4fr 1fr;
+    grid-template-columns: 1.15fr 1fr;
     gap: 48px;
-    padding: 24px 32px;
-    align-items: start;
+    padding: 14px 32px;
+    align-items: stretch;
     max-width: 100%;
     margin: 0 auto;
   }
@@ -63,7 +63,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     column-gap: 36px;
-    row-gap: 14px;
+    row-gap: 8px;
   }
   .piece-row {
     display: grid;
@@ -78,16 +78,23 @@
     border: 0;
     padding: 0;
     background: transparent;
-    transition: transform .25s ease, opacity .35s ease;
+    transition: transform .28s cubic-bezier(.2,.8,.25,1), filter .28s ease;
     outline: none;
     position: relative;
+    will-change: transform;
   }
   .piece svg { width: 100%; height: 100%; display: block; overflow: visible; }
-  .piece:hover:not(.is-placed) { transform: rotate(-4deg) scale(1.06); }
-  /* Piece keeps its full color after placement — it only animates back to
-     the board; the left-side icon stays as a labelled entry point. */
-  .piece.is-placed { opacity: 1; }
-
+  .piece:hover {
+    transform: translateY(-5px) rotate(-4deg) scale(1.08);
+    filter: drop-shadow(0 10px 8px rgba(43, 42, 40, .18));
+  }
+  .piece:focus-visible {
+    transform: translateY(-3px) scale(1.05);
+    filter: drop-shadow(0 8px 7px rgba(43, 42, 40, .16));
+    outline: 3px solid rgba(211, 47, 47, .45);
+    outline-offset: 4px;
+  }
+  .piece:active { transform: scale(.96); }
   .dash {
     height: 2px;
     background: var(--ink);
@@ -109,43 +116,45 @@
   }
 
   /* RIGHT — board */
+  .right-panel {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
   .board-wrap {
     width: 100%;
     max-width: 460px;
-    margin: 24px auto 0;
+    margin: 12px auto 0;
     aspect-ratio: 1 / 1;
     position: relative;
   }
   .board { width: 100%; height: 100%; position: relative; }
   .board svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-  .board .p { opacity: 0; transition: opacity .35s ease; }
-  .board .p.placed { opacity: 1; }
+  .board .p { opacity: 1; }
 
-  /* ---------- 提示胶囊（Section 02/03/04 统一用这一套） ---------- */
+  /* 完整拼图下方的单行提示 */
   .board-hint {
-    grid-column: 1 / -1;
-    justify-self: end;
     display: inline-flex;
     align-items: center;
-    gap: 28px;
+    gap: 10px;
+    width: 100%;
     text-align: left;
     font-family: "Ma Shan Zheng", "ZCOOL KuaiLe", "Liu Jian Mao Cao", "PingFang SC", cursive, sans-serif;
-    font-size: 30px;
+    font-size: 16px;
     line-height: 1.55;
     color: var(--ink);
     background: rgba(255, 255, 255, .9);
     border: 1.5px solid rgba(43, 42, 40, .2);
-    border-radius: 40px;
-    padding: 28px 45px;
-    box-shadow: 0 8px 30px rgba(43, 42, 40, .12);
+    border-radius: 20px;
+    padding: 10px 14px;
+    box-shadow: 0 4px 14px rgba(43, 42, 40, .10);
     max-width: 100%;
-    margin: 20px 0 0;
-    /* 只上移提示本身，不改变占位和其他板块的位置 */
-    transform: translateY(-16px);
+    margin: 0;
   }
   .board-hint::before {
     content: "";
-    width: 20px; height: 20px;
+    width: 10px; height: 10px;
     border-radius: 50%;
     background: #C24A1F;
     flex: 0 0 auto;
@@ -158,20 +167,6 @@
     white-space: nowrap;
   }
   .board-hint .hint-copy { min-width: 0; }
-  @media (max-width: 900px) {
-    .board-hint { justify-self: center; }
-  }
-
-  .fly {
-    position: fixed;
-    z-index: 9999;
-    pointer-events: none;
-    transform: translate(0, 0);
-    transition: transform .75s cubic-bezier(.65,.05,.2,1);
-    will-change: transform;
-  }
-  .fly svg { width: 100%; height: 100%; display: block; overflow: visible; }
-
   /* 移动端适配 */
   @media (max-width: 700px) {
     /* 手机上让页面高度跟随内容，首页 iframe 会自动收到刚好合适的高度，不留空白 */
@@ -212,15 +207,14 @@
 
     /* 拼图底板收窄，手机上不留一大片空白 */
     .board-wrap { max-width: 200px; margin: 2px auto 0; }
+    .right-panel { display: block; }
     .board-hint {
-      justify-self: center;
       gap: 14px;
       padding: 14px 20px;
       font-size: 20px;
       margin-top: 16px;
       border-radius: 28px;
       box-shadow: 0 6px 22px rgba(43, 42, 40, .10);
-      transform: none;
     }
     .board-hint::before { width: 12px; height: 12px; }
   }
@@ -229,10 +223,12 @@
 <body>
   <main class="stage">
     <section class="pieces" id="pieces" aria-label="七巧板片"></section>
-    <section class="board-wrap" aria-label="七巧板">
-      <div class="board" id="board"></div>
-    </section>
-    <p class="board-hint" id="tangramHint"></p>
+    <div class="right-panel">
+      <section class="board-wrap" aria-label="拼图完成的七巧板">
+        <div class="board" id="board"></div>
+      </section>
+      <p class="board-hint" id="tangramHint"></p>
+    </div>
   </main>
 
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -335,7 +331,7 @@ function buildTray() {
     const row = document.createElement('div');
     row.className = 'piece-row';
     row.innerHTML = `
-      <button class="piece" data-id="${p.id}" data-url="${p.url}" aria-label="${p.label}，完成对应拼图并自动打开知识">${pieceSvg(p)}</button>
+      <button class="piece" data-id="${p.id}" data-url="${p.url}" aria-label="${p.label}，打开对应的健康知识">${pieceSvg(p)}</button>
       <div class="dash"></div>
       <div class="label">${p.label}</div>
     `;
@@ -354,7 +350,7 @@ function buildBoard() {
     const f = pieceFilter(p);
     return `<polygon points="${p.points}" filter="${f}"
       fill="none" stroke="#2B2A28" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"
-      opacity="0" class="p-stroke" data-id="${p.id}"/>`;
+      opacity="1" class="p-stroke" data-id="${p.id}"/>`;
   }).join('');
   boardEl.innerHTML = `
     <svg viewBox="0 0 ${SIZE} ${SIZE}" preserveAspectRatio="xMidYMid meet">
@@ -364,43 +360,6 @@ function buildBoard() {
   `;
 }
 
-function avgPoints(pointsStr) {
-  const pts = pointsStr.trim().split(/\s+/).map(s => s.split(',').map(Number));
-  const x = pts.reduce((a, q) => a + q[0], 0) / pts.length;
-  const y = pts.reduce((a, q) => a + q[1], 0) / pts.length;
-  return [x, y];
-}
-
-const TANGRAM_PROGRESS_KEY = 'healthTangramPlacedPieces';
-
-function loadPlacedProgress() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(TANGRAM_PROGRESS_KEY) || '[]');
-    const validIds = new Set(PIECES.map(p => p.id));
-    return new Set(Array.isArray(saved) ? saved.filter(id => validIds.has(id)) : []);
-  } catch (e) {
-    return new Set();
-  }
-}
-
-function savePlacedProgress() {
-  try {
-    localStorage.setItem(TANGRAM_PROGRESS_KEY, JSON.stringify([...placedSet]));
-  } catch (e) {}
-}
-
-function restorePuzzleProgress() {
-  placedSet.forEach(id => {
-    const btn = piecesEl.querySelector(`.piece[data-id="${id}"]`);
-    const fill = boardEl.querySelector(`polygon.p[data-id="${id}"]`);
-    const stroke = boardEl.querySelector(`polygon.p-stroke[data-id="${id}"]`);
-    if (btn) btn.classList.add('is-placed');
-    if (fill) fill.style.opacity = '1';
-    if (stroke) stroke.style.opacity = '.95';
-  });
-}
-
-const placedSet = loadPlacedProgress();
 let navigationLocked = false;
 
 function openTarget(url) {
@@ -419,55 +378,17 @@ function openTarget(url) {
 
 function onPick(e) {
   if (navigationLocked) return;
-  const btn = e.currentTarget;
-  const id = btn.dataset.id;
-  const url = btn.dataset.url;
-  const p = PIECES.find(x => x.id === id);
-  if (!p) return;
-
+  const url = e.currentTarget.dataset.url;
+  if (!url) return;
   navigationLocked = true;
-
-  const fromRect = btn.getBoundingClientRect();
-  const [cx, cy] = avgPoints(p.points);
-  const boardRect = boardEl.getBoundingClientRect();
-  const targetLeft = boardRect.left + (cx / SIZE) * boardRect.width  - fromRect.width  / 2;
-  const targetTop  = boardRect.top  + (cy / SIZE) * boardRect.height - fromRect.height / 2;
-  const dx = targetLeft - fromRect.left;
-  const dy = targetTop  - fromRect.top;
-
-  const flyer = document.createElement('div');
-  flyer.className = 'fly';
-  flyer.style.left = fromRect.left + 'px';
-  flyer.style.top  = fromRect.top  + 'px';
-  flyer.style.width  = fromRect.width  + 'px';
-  flyer.style.height = fromRect.height + 'px';
-  flyer.innerHTML = pieceSvg(p);
-  document.body.appendChild(flyer);
-
-  btn.classList.add('is-placed');
-
-  flyer.getBoundingClientRect();
-  requestAnimationFrame(() => {
-    flyer.style.transform = `translate(${dx}px, ${dy}px)`;
-  });
-
+  openTarget(url);
   setTimeout(() => {
-    const fill = boardEl.querySelector(`polygon.p[data-id="${id}"]`);
-    const stroke = boardEl.querySelector(`polygon.p-stroke[data-id="${id}"]`);
-    if (fill) fill.style.opacity = '1';
-    if (stroke) stroke.style.opacity = '.95';
-    flyer.remove();
-    if (url) openTarget(url);
     navigationLocked = false;
-  }, 760);
-
-  placedSet.add(id);
-  savePlacedProgress();
+  }, 800);
 }
 
 buildTray();
 buildBoard();
-restorePuzzleProgress();
 </script>
 </body>
 </html>
