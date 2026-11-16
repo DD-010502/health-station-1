@@ -262,9 +262,9 @@
    TANGRAM_DATA — editable text, backend-injectable via window.TANGRAM_DATA
    ===================================================================== */
 const TANGRAM_DATA = Object.assign({
-  hintText: '请点击左侧的图形板块来完成拼图吧～<br/>完成后再次点击相应的板块继续学习小知识',
+  hintText: '点击任意一块七巧板，完成它对应的拼图～<br/>随后自动打开对应的健康知识小页面',
   /* 手机端图形在上方、排成两列，没有"左侧"，所以单独给一套说法 */
-  hintTextMobile: '点一下上面的图形开始拼图吧～<br/>完成后再次点击，就能看到对应的小知识',
+  hintTextMobile: '点一下任意图形，完成对应拼图～<br/>随后自动打开健康小知识',
 }, window.TANGRAM_DATA || {});
 
 function renderTangramText() {
@@ -328,7 +328,7 @@ function buildTray() {
     const row = document.createElement('div');
     row.className = 'piece-row';
     row.innerHTML = `
-      <button class="piece" data-id="${p.id}" data-url="${p.url}" aria-label="${p.label}">${pieceSvg(p)}</button>
+      <button class="piece" data-id="${p.id}" data-url="${p.url}" aria-label="${p.label}，完成对应拼图并自动打开知识">${pieceSvg(p)}</button>
       <div class="dash"></div>
       <div class="label">${p.label}</div>
     `;
@@ -365,18 +365,31 @@ function avgPoints(pointsStr) {
 }
 
 const placedSet = new Set();
+let navigationLocked = false;
+
+function openTarget(url) {
+  const targetUrl = new URL(url, window.location.href).href;
+  const nextWindow = window.open(targetUrl, '_blank');
+  if (nextWindow) {
+    try { nextWindow.opener = null; } catch (e) {}
+    return;
+  }
+  try {
+    window.top.location.href = targetUrl;
+  } catch (e) {
+    window.location.href = targetUrl;
+  }
+}
 
 function onPick(e) {
+  if (navigationLocked) return;
   const btn = e.currentTarget;
   const id = btn.dataset.id;
   const url = btn.dataset.url;
   const p = PIECES.find(x => x.id === id);
   if (!p) return;
 
-  if (placedSet.has(id)) {
-    if (url) window.open(url, '_blank', 'noopener');
-    return;
-  }
+  navigationLocked = true;
 
   const fromRect = btn.getBoundingClientRect();
   const [cx, cy] = avgPoints(p.points);
@@ -408,6 +421,8 @@ function onPick(e) {
     if (fill) fill.style.opacity = '1';
     if (stroke) stroke.style.opacity = '.95';
     flyer.remove();
+    if (url) openTarget(url);
+    navigationLocked = false;
   }, 760);
 
   placedSet.add(id);
