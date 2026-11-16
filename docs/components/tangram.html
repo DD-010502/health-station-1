@@ -154,6 +154,16 @@
     .board-hint { justify-self: center; }
   }
 
+  .fly {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    transform: translate(0, 0);
+    transition: transform .75s cubic-bezier(.65,.05,.2,1);
+    will-change: transform;
+  }
+  .fly svg { width: 100%; height: 100%; display: block; overflow: visible; }
+
   /* 移动端适配 */
   @media (max-width: 700px) {
     /* 手机上让页面高度跟随内容，首页 iframe 会自动收到刚好合适的高度，不留空白 */
@@ -252,9 +262,9 @@
    TANGRAM_DATA — editable text, backend-injectable via window.TANGRAM_DATA
    ===================================================================== */
 const TANGRAM_DATA = Object.assign({
-  hintText: '点击任意一块七巧板，即可完成拼图～<br/>同时打开对应的健康知识小页面',
+  hintText: '请点击左侧的图形板块来完成拼图吧～<br/>完成后再次点击相应的板块继续学习小知识',
   /* 手机端图形在上方、排成两列，没有"左侧"，所以单独给一套说法 */
-  hintTextMobile: '点一下任意图形，即可完成拼图～<br/>同时打开对应的健康小知识',
+  hintTextMobile: '点一下上面的图形开始拼图吧～<br/>完成后再次点击，就能看到对应的小知识',
 }, window.TANGRAM_DATA || {});
 
 function renderTangramText() {
@@ -318,7 +328,7 @@ function buildTray() {
     const row = document.createElement('div');
     row.className = 'piece-row';
     row.innerHTML = `
-      <button class="piece" data-id="${p.id}" data-url="${p.url}" aria-label="${p.label}，完成拼图并打开对应知识">${pieceSvg(p)}</button>
+      <button class="piece" data-id="${p.id}" data-url="${p.url}" aria-label="${p.label}">${pieceSvg(p)}</button>
       <div class="dash"></div>
       <div class="label">${p.label}</div>
     `;
@@ -347,32 +357,60 @@ function buildBoard() {
   `;
 }
 
-let navigationLocked = false;
-
-function completePuzzle() {
-  PIECES.forEach(p => {
-    const btn = piecesEl.querySelector(`.piece[data-id="${p.id}"]`);
-    if (btn) btn.classList.add('is-placed');
-    const fill = boardEl.querySelector(`polygon.p[data-id="${p.id}"]`);
-    const stroke = boardEl.querySelector(`polygon.p-stroke[data-id="${p.id}"]`);
-    if (fill) fill.style.opacity = '1';
-    if (stroke) stroke.style.opacity = '.95';
-  });
+function avgPoints(pointsStr) {
+  const pts = pointsStr.trim().split(/\s+/).map(s => s.split(',').map(Number));
+  const x = pts.reduce((a, q) => a + q[0], 0) / pts.length;
+  const y = pts.reduce((a, q) => a + q[1], 0) / pts.length;
+  return [x, y];
 }
 
+const placedSet = new Set();
+
 function onPick(e) {
-  if (navigationLocked) return;
   const btn = e.currentTarget;
+  const id = btn.dataset.id;
   const url = btn.dataset.url;
-  const p = PIECES.find(x => x.id === btn.dataset.id);
+  const p = PIECES.find(x => x.id === id);
   if (!p) return;
 
-  navigationLocked = true;
-  completePuzzle();
-  if (url) window.open(url, '_blank', 'noopener');
+  if (placedSet.has(id)) {
+    if (url) window.open(url, '_blank', 'noopener');
+    return;
+  }
+
+  const fromRect = btn.getBoundingClientRect();
+  const [cx, cy] = avgPoints(p.points);
+  const boardRect = boardEl.getBoundingClientRect();
+  const targetLeft = boardRect.left + (cx / SIZE) * boardRect.width  - fromRect.width  / 2;
+  const targetTop  = boardRect.top  + (cy / SIZE) * boardRect.height - fromRect.height / 2;
+  const dx = targetLeft - fromRect.left;
+  const dy = targetTop  - fromRect.top;
+
+  const flyer = document.createElement('div');
+  flyer.className = 'fly';
+  flyer.style.left = fromRect.left + 'px';
+  flyer.style.top  = fromRect.top  + 'px';
+  flyer.style.width  = fromRect.width  + 'px';
+  flyer.style.height = fromRect.height + 'px';
+  flyer.innerHTML = pieceSvg(p);
+  document.body.appendChild(flyer);
+
+  btn.classList.add('is-placed');
+
+  flyer.getBoundingClientRect();
+  requestAnimationFrame(() => {
+    flyer.style.transform = `translate(${dx}px, ${dy}px)`;
+  });
+
   setTimeout(() => {
-    navigationLocked = false;
-  }, 1000);
+    const fill = boardEl.querySelector(`polygon.p[data-id="${id}"]`);
+    const stroke = boardEl.querySelector(`polygon.p-stroke[data-id="${id}"]`);
+    if (fill) fill.style.opacity = '1';
+    if (stroke) stroke.style.opacity = '.95';
+    flyer.remove();
+  }, 760);
+
+  placedSet.add(id);
 }
 
 buildTray();
