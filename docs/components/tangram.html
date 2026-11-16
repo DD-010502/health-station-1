@@ -364,7 +364,36 @@ function avgPoints(pointsStr) {
   return [x, y];
 }
 
-const placedSet = new Set();
+const TANGRAM_PROGRESS_KEY = 'healthTangramPlacedPieces';
+
+function loadPlacedProgress() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(TANGRAM_PROGRESS_KEY) || '[]');
+    const validIds = new Set(PIECES.map(p => p.id));
+    return new Set(Array.isArray(saved) ? saved.filter(id => validIds.has(id)) : []);
+  } catch (e) {
+    return new Set();
+  }
+}
+
+function savePlacedProgress() {
+  try {
+    localStorage.setItem(TANGRAM_PROGRESS_KEY, JSON.stringify([...placedSet]));
+  } catch (e) {}
+}
+
+function restorePuzzleProgress() {
+  placedSet.forEach(id => {
+    const btn = piecesEl.querySelector(`.piece[data-id="${id}"]`);
+    const fill = boardEl.querySelector(`polygon.p[data-id="${id}"]`);
+    const stroke = boardEl.querySelector(`polygon.p-stroke[data-id="${id}"]`);
+    if (btn) btn.classList.add('is-placed');
+    if (fill) fill.style.opacity = '1';
+    if (stroke) stroke.style.opacity = '.95';
+  });
+}
+
+const placedSet = loadPlacedProgress();
 let navigationLocked = false;
 
 function openTarget(url) {
@@ -426,10 +455,12 @@ function onPick(e) {
   }, 760);
 
   placedSet.add(id);
+  savePlacedProgress();
 }
 
 buildTray();
 buildBoard();
+restorePuzzleProgress();
 </script>
 </body>
 </html>
