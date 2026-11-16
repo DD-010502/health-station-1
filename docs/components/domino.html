@@ -78,6 +78,7 @@
     box-shadow: 0 8px 30px rgba(43, 42, 40, .12);
     transition: transform .25s ease;
     z-index: 5;
+    outline: none;
   }
   .corner-link::before {
     content: "";
@@ -87,7 +88,22 @@
     flex: 0 0 auto;
   }
   .corner-link:hover { transform: translateY(-2px); }
-  .corner-link .text { flex: 0 1 auto; }
+  .corner-link:focus-visible {
+    outline: 3px solid rgba(211, 47, 47, .45);
+    outline-offset: 4px;
+  }
+  .corner-link .text {
+    flex: 0 1 auto;
+    min-width: 0;
+    white-space: nowrap;
+  }
+  .corner-link .link-accent {
+    color: #D32F2F;
+    font-size: 1.25em;
+    font-weight: 700;
+    line-height: 1.25;
+    white-space: nowrap;
+  }
   .corner-link .arrow {
     width: 50px;
     height: 50px;
@@ -211,7 +227,7 @@
       border-radius: 28px;
       box-shadow: 0 6px 22px rgba(43, 42, 40, .10);
     }
-    .corner-link .text { max-width: 100%; }
+    .corner-link .text { max-width: 100%; white-space: normal; }
     .corner-link::before { width: 12px; height: 12px; }
     .corner-link .arrow { width: 30px; height: 30px; margin: 0; }
   }
@@ -290,9 +306,8 @@
    DOMINO_DATA — editable text, backend-injectable via window.DOMINO_DATA
    ===================================================================== */
 const DOMINO_DATA = Object.assign({
-  linkText: '点一下 <em>第一块</em>，看它们如何点亮小灯。<br/>了解健康行为之间是如何环环紧密关联的～',
-  /* 手机宽度窄，用短一点的版本，避免挤成三四行 */
-  linkTextMobile: '点一下<em>第一块</em>，看小灯如何亮起～<br/>了解健康行为之间环环相扣的关联',
+  linkText: '<strong class="link-accent">点击此处</strong>了解健康行为是如何紧密关联的～',
+  linkTextMobile: '<strong class="link-accent">点击此处</strong>了解健康行为是如何紧密关联的～',
 }, window.DOMINO_DATA || {});
 
 function renderDominoText() {
